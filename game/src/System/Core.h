@@ -22,9 +22,11 @@ private:
 	bool Init();
 	void Terminate();
 	void InitAppState(AppPhase newState);
+
 	void CheckForPhaseChange();
 	void CheckForSystemInputs();
 	AppPhase GetNextPhase();
+
 	void SetFullScreen();
 	void ExitFullScreen();
 	void SwitchFullScreen();

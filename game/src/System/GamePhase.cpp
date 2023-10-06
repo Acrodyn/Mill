@@ -9,6 +9,7 @@ GamePhase::GamePhase()
 
 GamePhase::~GamePhase()
 {
+
 }
 
 void GamePhase::Start()
@@ -31,26 +32,22 @@ void GamePhase::Update()
 	}
 
 	LoopPhase();
-
-	if (_phaseState != GamePhaseState::Running)
-	{
-		switch (_phaseState)
-		{
-		case GamePhaseState::Starting:
-			TransitionTo();
-			break;
-		case GamePhaseState::Ending:
-			TransitionFrom();
-			break;
-		default:
-			break;
-		}
-	}
+	CheckForTransitions();
 }
 
 bool GamePhase::IsEnded()
 {
 	return _phaseState == GamePhaseState::Ended;
+}
+
+void GamePhase::InitPhase()
+{
+
+}
+
+void GamePhase::DestroyPhase()
+{
+
 }
 
 void GamePhase::TransitionTo()
@@ -77,12 +74,20 @@ void GamePhase::TransitionFrom()
 	_transitionAlpha += _transitionFromSpeed * GetFrameTime();
 }
 
-void GamePhase::InitPhase()
+void GamePhase::CheckForTransitions()
 {
-
-}
-
-void GamePhase::DestroyPhase()
-{
-
+	if (_phaseState != GamePhaseState::Running)
+	{
+		switch (_phaseState)
+		{
+		case GamePhaseState::Starting:
+			TransitionTo();
+			break;
+		case GamePhaseState::Ending:
+			TransitionFrom();
+			break;
+		default:
+			break;
+		}
+	}
 }

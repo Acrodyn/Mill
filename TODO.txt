@@ -1,0 +1,3 @@
+- asset manager?
+- input manager s delegatima za akcije!
+- sound manager?

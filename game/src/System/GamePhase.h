@@ -11,15 +11,17 @@ public:
 	void Start();
 	void End();
 	void Update();
-
 	bool IsEnded();
 
 protected:
-	void TransitionTo();
-	void TransitionFrom();
 	virtual void InitPhase();
 	virtual void DestroyPhase();
 	virtual void LoopPhase() = 0;
+
+private:
+	void TransitionTo();
+	void TransitionFrom();
+	void CheckForTransitions();
 
 protected:
 	GamePhaseState _phaseState = GamePhaseState::Unset;

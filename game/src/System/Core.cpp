@@ -148,10 +148,10 @@ void Core::CheckForPhaseChange()
 
 void Core::CheckForSystemInputs()
 {
-	/*if (IsScreenModifierPressed())
+	if (IsScreenModifierPressed())
 	{
 		SwitchFullScreen();
-	}*/
+	}
 }
 
 AppPhase Core::GetNextPhase()

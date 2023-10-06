@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include "System/GamePhase.h"
 
+class Board;
+
 
 class Game : public GamePhase
 {
@@ -16,6 +18,5 @@ protected:
 	void LoopPhase() override;
 
 private:
-
-private:
+	Board* _board = nullptr;
 };
