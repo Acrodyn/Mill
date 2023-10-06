@@ -5,6 +5,7 @@
 
 class Node;
 class Connection;
+enum class ConnectionDirection;
 
 class Board
 {
@@ -17,7 +18,7 @@ public:
 
 protected:
 	Node* CreateNode(float screenPosX, float screenPosY);
-	void CreateConnection(Node* node1, Node* node2);
+	void CreateConnection(Node* node1, Node* node2, ConnectionDirection direction);
 
 private:
 	void PairNodes(Node* node1, Node* node2);

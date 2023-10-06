@@ -1,5 +1,6 @@
 #include "ThreeBoard.h"
 #include "System/Core.h"
+#include "Connection.h"
 
 ThreeBoard::ThreeBoard()
 {
@@ -26,24 +27,23 @@ void ThreeBoard::Init()
 	Node* botCenter = CreateNode(0.5f, 0.8f);
 	Node* botRight = CreateNode(0.7f, 0.8f);
 
-	CreateConnection(midCenter, topLeft);
-	CreateConnection(midCenter, topCenter);
-	CreateConnection(midCenter, topRight);
-	CreateConnection(midCenter, midLeft);
-	CreateConnection(midCenter, midRight);
-	CreateConnection(midCenter, botLeft);
-	CreateConnection(midCenter, botCenter);
-	CreateConnection(midCenter, botRight);
+	CreateConnection(midCenter, topLeft, ConnectionDirection::DiagonalRight);
+	CreateConnection(midCenter, topCenter, ConnectionDirection::Vertical);
+	CreateConnection(midCenter, topRight, ConnectionDirection::DiagonalLeft);
+	CreateConnection(midCenter, midLeft, ConnectionDirection::Horizontal);
+	CreateConnection(midCenter, midRight, ConnectionDirection::Horizontal);
+	CreateConnection(midCenter, botLeft, ConnectionDirection::DiagonalLeft);
+	CreateConnection(midCenter, botCenter, ConnectionDirection::Vertical);
+	CreateConnection(midCenter, botRight, ConnectionDirection::DiagonalRight);
 
-	CreateConnection(topLeft, topCenter);
-	CreateConnection(topCenter, topRight);
-	CreateConnection(topLeft, midLeft);
-	CreateConnection(topRight, midRight);
-	CreateConnection(botLeft, botCenter);
-	CreateConnection(botLeft, midLeft);
-	CreateConnection(botCenter, botRight);
-	CreateConnection(botRight, midRight);
-
+	CreateConnection(topLeft, topCenter, ConnectionDirection::Horizontal);
+	CreateConnection(topCenter, topRight, ConnectionDirection::Horizontal);
+	CreateConnection(topLeft, midLeft, ConnectionDirection::Vertical);
+	CreateConnection(topRight, midRight, ConnectionDirection::Vertical);
+	CreateConnection(botLeft, botCenter, ConnectionDirection::Horizontal);
+	CreateConnection(botLeft, midLeft, ConnectionDirection::Vertical);
+	CreateConnection(botCenter, botRight, ConnectionDirection::Horizontal);
+	CreateConnection(botRight, midRight, ConnectionDirection::Vertical);
 }
 
 void ThreeBoard::Update()

@@ -42,9 +42,9 @@ Node* Board::CreateNode(float screenPosX, float screenPosY)
     return newNode;
 }
 
-void Board::CreateConnection(Node* node1, Node* node2)
+void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direction)
 {
-    _connections.push_back(new Connection(node1, node2));
+    _connections.push_back(new Connection(node1, node2, direction));
     PairNodes(node1, node2);
 }
 
