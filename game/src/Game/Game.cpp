@@ -26,6 +26,5 @@ void Game::DestroyPhase()
 void Game::LoopPhase()
 {
 	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), BLACK);
-
 	_board->Update();
 }

@@ -4,6 +4,7 @@
 #include <vector>
 
 class Node;
+class Connection;
 
 class Board
 {
@@ -15,8 +16,16 @@ public:
 	virtual void Update();
 
 protected:
+	Node* CreateNode(float screenPosX, float screenPosY);
+	void CreateConnection(Node* node1, Node* node2);
+
+private:
+	void PairNodes(Node* node1, Node* node2);
+
+protected:
 	int _piecesPerPlayer = 0;
 	int _nodesCount = 0;
 
 	std::vector<Node*> _nodes;
+	std::vector<Connection*> _connections;
 };

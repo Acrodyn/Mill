@@ -81,13 +81,22 @@ int Core::GetDisplayHeight()
 	}
 }
 
+int Core::GetPixelPositionWidth(float percentage)
+{
+	return percentage * GetDisplayWidth();
+}
+
+int Core::GetPixelPositionHeight(float percentage)
+{
+	return percentage * GetDisplayHeight();
+}
+
 bool Core::Init()
 {
 	try
 	{
 		SetConfigFlags(FLAG_MSAA_4X_HINT);
 		InitWindow(defaultScreenWidth, defaultScreenHeight, "Mlin");
-		DisableCursor();
 		SetTargetFPS(120);
 		//SetFullScreen();
 	}
