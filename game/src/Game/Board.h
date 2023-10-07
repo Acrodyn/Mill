@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include <vector>
 
+class Piece;
 class Node;
 class Connection;
 enum class ConnectionDirection;
@@ -16,8 +17,12 @@ public:
 	virtual void Init() = 0;
 	virtual void Update();
 
+	void CheckForNodeClick();
+	void CheckForPieceClick();
+
 protected:
 	Node* CreateNode(float screenPosX, float screenPosY);
+	Piece* CreatePiece(float screenPosX, float screenPosY);
 	void CreateConnection(Node* node1, Node* node2, ConnectionDirection direction);
 
 private:
@@ -27,6 +32,10 @@ protected:
 	int _piecesPerPlayer = 0;
 	int _nodesCount = 0;
 
+	std::vector<Piece*> _pieces;
 	std::vector<Node*> _nodes;
 	std::vector<Connection*> _connections;
+
+private:
+	const int COLLISION_CHECK_MULTIPLIER = 3;
 };

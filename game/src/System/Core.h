@@ -17,6 +17,7 @@ public:
 	static Vector2 GetScreenCenter();
 	static int GetDisplayWidth();
 	static int GetDisplayHeight();
+	static Vector2 GetPixelPosition(float percentageX, float percentageY);
 	static int GetPixelPositionWidth(float percentage);
 	static int GetPixelPositionHeight(float percentage);
 

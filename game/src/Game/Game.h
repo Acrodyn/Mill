@@ -18,5 +18,8 @@ protected:
 	void LoopPhase() override;
 
 private:
+	void CheckForInput();
+
+private:
 	Board* _board = nullptr;
 };

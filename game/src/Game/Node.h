@@ -1,9 +1,12 @@
 #pragma once
 
 #include "raylib.h"
+#include "System/ScreenRelatedObject.h"
 #include <vector>
 
-class Node
+class Piece;
+
+class Node : public ScreenRelatedObject
 {
 public:
 	Node() = delete;
@@ -12,10 +15,12 @@ public:
 
 	void Update();
 	void PairWith(Node* node);
-	int GetPositionX();
-	int GetPositionY();
+	float GetSize();
 
 private:
-	Vector2 _position;
+	const float NODE_SIZE = 10.f;
+
 	std::vector<Node*> _pairedNodes;
+	Piece* _hostedPiece = nullptr;
+
 };

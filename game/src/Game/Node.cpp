@@ -1,9 +1,9 @@
 #include "Node.h"
 #include "System/Core.h"
 
-Node::Node(float positionX, float positionY)
+Node::Node(float positionX, float positionY) : ScreenRelatedObject{ positionX,  positionY }
 {
-	_position = { positionX, positionY };
+
 }
 
 Node::~Node()
@@ -13,7 +13,7 @@ Node::~Node()
 
 void Node::Update()
 {
-	DrawCircle(GetPositionX(), GetPositionY(), 10.f, RAYWHITE);
+	DrawCircle(GetPositionX(), GetPositionY(), NODE_SIZE, RAYWHITE);
 }
 
 void Node::PairWith(Node* node)
@@ -21,12 +21,7 @@ void Node::PairWith(Node* node)
 	_pairedNodes.push_back(node);
 }
 
-int Node::GetPositionX()
+float Node::GetSize()
 {
-	return Core::GetPixelPositionWidth(_position.x);
-}
-
-int Node::GetPositionY()
-{
-	return Core::GetPixelPositionHeight(_position.y);
+	return NODE_SIZE;
 }

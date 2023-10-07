@@ -81,14 +81,19 @@ int Core::GetDisplayHeight()
 	}
 }
 
+Vector2 Core::GetPixelPosition(float percentageX, float percentageY)
+{
+	return Vector2({ (float)GetPixelPositionWidth(percentageX), (float)GetPixelPositionHeight(percentageY)});
+}
+
 int Core::GetPixelPositionWidth(float percentage)
 {
-	return percentage * GetDisplayWidth();
+	return (int)(percentage * GetDisplayWidth());
 }
 
 int Core::GetPixelPositionHeight(float percentage)
 {
-	return percentage * GetDisplayHeight();
+	return (int)(percentage * GetDisplayHeight());
 }
 
 bool Core::Init()

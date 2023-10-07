@@ -27,4 +27,13 @@ void Game::LoopPhase()
 {
 	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), BLACK);
 	_board->Update();
+	CheckForInput();
+}
+
+void Game::CheckForInput()
+{
+	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+	{
+		_board->CheckForNodeClick();
+	}
 }

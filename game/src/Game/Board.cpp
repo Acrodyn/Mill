@@ -1,6 +1,7 @@
 #include "Board.h"
-#include "System/Core.h"
+#include "Piece.h"
 #include "Node.h"
+#include "System/Core.h"
 #include "Connection.h"
 
 Board::Board()
@@ -19,6 +20,11 @@ Board::~Board()
     {
         delete node;
     }
+
+    for (Piece* piece: _pieces)
+    {
+        delete piece;
+    }
 }
 
 void Board::Update()
@@ -30,7 +36,31 @@ void Board::Update()
 
     for (Node* node : _nodes)
     {
-        node->Update();;
+        node->Update();
+    }
+
+    for (Piece* piece : _pieces)
+    {
+        piece->Update(); 
+    }
+}
+
+void Board::CheckForNodeClick()
+{
+    for (Node* node : _nodes)
+    {
+        if (CheckCollisionPointCircle(GetMousePosition(), node->GetPosition(), node->GetSize() * COLLISION_CHECK_MULTIPLIER))
+        {
+
+        }
+    }
+}
+
+void Board::CheckForPieceClick()
+{
+    for (Piece* piece : _pieces)
+    {
+
     }
 }
 
@@ -40,6 +70,11 @@ Node* Board::CreateNode(float screenPosX, float screenPosY)
     _nodes.push_back(newNode);
 
     return newNode;
+}
+
+Piece* Board::CreatePiece(float screenPosX, float screenPosY)
+{
+    return nullptr;
 }
 
 void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direction)
