@@ -13,5 +13,5 @@ Piece::~Piece()
 
 void Piece::Update()
 {
-	DrawCircle(100, 100, 50.f, RED);
+	DrawCircleV(GetPosition(), PIECE_SIZE, RED);
 }

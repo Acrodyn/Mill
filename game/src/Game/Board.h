@@ -22,7 +22,7 @@ public:
 
 protected:
 	Node* CreateNode(float screenPosX, float screenPosY);
-	Piece* CreatePiece(float screenPosX, float screenPosY);
+	Piece* CreatePiece(Node* parentNode);
 	void CreateConnection(Node* node1, Node* node2, ConnectionDirection direction);
 
 private:

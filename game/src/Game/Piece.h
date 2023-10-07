@@ -11,4 +11,7 @@ public:
 	~Piece();
 
 	void Update();
+
+private:
+	const float PIECE_SIZE = 40.f;
 };

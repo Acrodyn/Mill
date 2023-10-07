@@ -51,7 +51,8 @@ void Board::CheckForNodeClick()
     {
         if (CheckCollisionPointCircle(GetMousePosition(), node->GetPosition(), node->GetSize() * COLLISION_CHECK_MULTIPLIER))
         {
-
+            CreatePiece(node);
+            return;
         }
     }
 }
@@ -72,9 +73,18 @@ Node* Board::CreateNode(float screenPosX, float screenPosY)
     return newNode;
 }
 
-Piece* Board::CreatePiece(float screenPosX, float screenPosY)
+Piece* Board::CreatePiece(Node* parentNode)
 {
-    return nullptr;
+    if (parentNode->GetOccupiedPiece() != nullptr)
+    {
+        return nullptr;
+    }
+
+    Piece* newPiece = new Piece(parentNode->GetPositionInRelationToScreen());
+    _pieces.push_back(newPiece);
+    parentNode->SetHostedPiece(newPiece);
+
+    return newPiece;
 }
 
 void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direction)

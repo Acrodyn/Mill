@@ -16,6 +16,9 @@ public:
 	void Update();
 	void PairWith(Node* node);
 	float GetSize();
+	void SetHostedPiece(Piece* piece);
+	void ResetHostedPiece();
+	Piece* GetOccupiedPiece();
 
 private:
 	const float NODE_SIZE = 10.f;

@@ -25,3 +25,18 @@ float Node::GetSize()
 {
 	return NODE_SIZE;
 }
+
+void Node::SetHostedPiece(Piece* piece)
+{
+	_hostedPiece = piece;
+}
+
+void Node::ResetHostedPiece()
+{
+	_hostedPiece = nullptr;
+}
+
+Piece* Node::GetOccupiedPiece()
+{
+	return _hostedPiece;
+}
