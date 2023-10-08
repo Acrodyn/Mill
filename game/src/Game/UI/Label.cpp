@@ -1,17 +1,17 @@
 #include "Label.h"
 #include "System/Core.h"
 
-Label::Label(float positionX, float positionY) : ScreenRelatedObject{ positionX, positionY }, _fontSize(DEFAULT_SIZE), _text(nullptr), _textColor(MAGENTA)
+Label::Label(float positionX, float positionY) : ScreenRelatedObject{ positionX, positionY }, _fontSize(DEFAULT_SIZE), _text(nullptr), _textColor(BLACK)
 {
 
 }
 
-Label::Label(int fontSize, char* text) : _fontSize(fontSize), _text(text), _textColor(MAGENTA)
+Label::Label(int fontSize, char* text) : _fontSize(fontSize), _text(text), _textColor(BLACK)
 {
 
 }
 
-Label::Label(float positionX, float positionY, int fontSize, char* text) : ScreenRelatedObject{ positionX, positionY }, _fontSize(fontSize), _text(text), _textColor(MAGENTA)
+Label::Label(float positionX, float positionY, int fontSize, char* text) : ScreenRelatedObject{ positionX, positionY }, _fontSize(fontSize), _text(text), _textColor(BLACK)
 {
 
 }

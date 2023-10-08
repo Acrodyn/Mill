@@ -4,24 +4,30 @@
 #include "Boards/ThreeBoard.h"
 #include "UI/Button.h"
 #include "UI/Label.h"
+#include "System/ScreenRelatedObject.h"
 
 Game::Game()
 {
 	_board = new ThreeBoard();
-
-	_button = new Button(0.15f, 0.15f, 200, 100);
-	_button->SetColor(YELLOW);
-	_button->AttachLabel(new Label(20, "Test"));
 }
 
 Game::~Game()
 {
 	delete _board;
+
+	for (ScreenRelatedObject* screenObject : _screenObjects)
+	{
+		delete screenObject;
+	}
 }
 
 void Game::InitPhase()
 {
 	_board->Init();
+
+	Button* resetButton = new Button(0.15f, 0.15f, 200, 100);
+	resetButton->AttachLabel(new Label(20, "Test"));
+	_screenObjects.push_back(resetButton);
 }
 
 void Game::DestroyPhase()
@@ -34,7 +40,11 @@ void Game::LoopPhase()
 	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), BLACK);
 	_board->Update();
 
-	_button->Update();
+	for (ScreenRelatedObject* screenObject : _screenObjects)
+	{
+		screenObject->Update();
+	}
+
 	CheckForInput();
 }
 

@@ -3,7 +3,7 @@
 #include "raymath.h"
 #include <algorithm>
 
-Button::Button(float positionX, float positionY, float width, float height) : ScreenRelatedObject{ positionX, positionY }, _size(Vector2{ width, height}), _buttonColor(MAGENTA)
+Button::Button(float positionX, float positionY, float width, float height) : ScreenRelatedObject{ positionX, positionY }, _size(Vector2{ width, height}), _buttonColor(LIGHTGRAY), _pressedColor(GRAY)
 {
 	SetOffset(Vector2Negate(Vector2Scale(_size, 0.5f)));
 }
@@ -18,7 +18,10 @@ Button::~Button()
 
 void Button::Update()
 {
-	DrawRectangleV(GetPosition(), _size, _buttonColor);
+	CheckForClick();
+
+	CLITERAL(Color) color = _isPressed ? _pressedColor : _buttonColor;
+	DrawRectangleV(GetPosition(), _size, color);
 
 	if (_attachedLabel != nullptr)
 	{
@@ -26,9 +29,29 @@ void Button::Update()
 	}
 }
 
+bool Button::IsMouseOnObject()
+{
+	return CheckCollisionPointRec(GetMousePosition(), Rectangle({(float)GetPositionX(), (float)GetPositionY(), _size.x, _size.y}));
+}
+
+void Button::OnClickPressed()
+{
+	
+}
+
+void Button::OnClickReleased()
+{
+	
+}
+
 void Button::SetColor(CLITERAL(Color) color)
 {
 	_buttonColor = color;
+}
+
+void Button::SetPressedColor(CLITERAL(Color) color)
+{
+	_pressedColor = color;
 }
 
 void Button::AttachLabel(Label* label)
@@ -45,4 +68,22 @@ void Button::AttachLabel(Label* label)
 Label* Button::GetLabel()
 {
 	return _attachedLabel;
+}
+
+void Button::CheckForClick()
+{
+	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && IsMouseOnObject())
+	{
+		_isPressed = true;
+		OnClickPressed();
+	}
+	else if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+	{
+		if (IsMouseOnObject())
+		{
+			OnClickReleased();
+		}
+
+		_isPressed = false;
+	}
 }
