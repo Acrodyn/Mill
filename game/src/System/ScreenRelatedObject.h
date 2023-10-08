@@ -7,14 +7,21 @@ class ScreenRelatedObject
 public:
 	ScreenRelatedObject();
 	ScreenRelatedObject(float screenRelatedPosX, float screenRelatedPosY);
-	ScreenRelatedObject(Vector2 positionInRelationToScreen);
+	ScreenRelatedObject(Vector2 screenRelatedPosition);
+	ScreenRelatedObject(ScreenRelatedObject* anchorObject);
 	virtual ~ScreenRelatedObject();
+
+	virtual void Update() = 0;
 
 	int GetPositionX();
 	int GetPositionY();
 	Vector2 GetPosition();
-	Vector2 GetPositionInRelationToScreen();
+	Vector2 GetScreenRelatedPosition();
+	void SetAnchorObject(ScreenRelatedObject* anchorObject);
+	void SetOffset(Vector2 offset);
 
 protected:
-	Vector2 _positionInRelationToScreen;
+	Vector2 _screenRelatedPosition;
+	ScreenRelatedObject* _anchorObject = nullptr;
+	Vector2 _offset;
 };

@@ -1,19 +1,29 @@
 #include "ScreenRelatedObject.h"
 #include "System/Core.h"
+#include "raymath.h"
 
 ScreenRelatedObject::ScreenRelatedObject()
 {
-	_positionInRelationToScreen = Vector2();
+	_screenRelatedPosition = Vector2();
+	_offset = Vector2();
 }
 
 ScreenRelatedObject::ScreenRelatedObject(float screenRelatedPosX, float screenRelatedPosY)
 {
-	_positionInRelationToScreen = Vector2({ screenRelatedPosX, screenRelatedPosY });
+	_screenRelatedPosition = Vector2({ screenRelatedPosX, screenRelatedPosY });
+	_offset = Vector2();
 }
 
-ScreenRelatedObject::ScreenRelatedObject(Vector2 positionInRelationToScreen)
+ScreenRelatedObject::ScreenRelatedObject(Vector2 screenRelatedPosition)
 {
-	_positionInRelationToScreen = positionInRelationToScreen;
+	_screenRelatedPosition = screenRelatedPosition;
+	_offset = Vector2();
+}
+
+ScreenRelatedObject::ScreenRelatedObject(ScreenRelatedObject* anchorObject) : _anchorObject(anchorObject)
+{
+	_screenRelatedPosition = Vector2({ 0.f, 0.f });
+	_offset = Vector2();
 }
 
 ScreenRelatedObject::~ScreenRelatedObject()
@@ -23,20 +33,45 @@ ScreenRelatedObject::~ScreenRelatedObject()
 
 int ScreenRelatedObject::GetPositionX()
 {
-	return Core::GetPixelPositionWidth(_positionInRelationToScreen.x);
+	if (_anchorObject != nullptr)
+	{
+		return _anchorObject->GetPositionX() + (int)_offset.x;
+	}
+
+	return (int)(Core::GetPixelPositionWidth(_screenRelatedPosition.x) + _offset.x);
 }
 
 int ScreenRelatedObject::GetPositionY()
 {
-	return Core::GetPixelPositionHeight(_positionInRelationToScreen.y);
+	if (_anchorObject != nullptr)
+	{
+		return _anchorObject->GetPositionY() + (int)_offset.y;
+	}
+
+	return (int)(Core::GetPixelPositionHeight(_screenRelatedPosition.y) + _offset.y);
 }
 
 Vector2 ScreenRelatedObject::GetPosition()
 {
-	return Core::GetPixelPosition(_positionInRelationToScreen.x, _positionInRelationToScreen.y);
+	if (_anchorObject != nullptr)
+	{
+		return Vector2Add(_anchorObject->GetPosition(), _offset);
+	}
+
+	return Vector2Add(Core::GetPixelPosition(_screenRelatedPosition.x, _screenRelatedPosition.y), _offset);
 }
 
-Vector2 ScreenRelatedObject::GetPositionInRelationToScreen()
+Vector2 ScreenRelatedObject::GetScreenRelatedPosition()
 {
-	return _positionInRelationToScreen;
+	return _screenRelatedPosition;
+}
+
+void ScreenRelatedObject::SetAnchorObject(ScreenRelatedObject* anchorObject)
+{
+	_anchorObject = anchorObject;
+}
+
+void ScreenRelatedObject::SetOffset(Vector2 offset)
+{
+	_offset = offset;
 }

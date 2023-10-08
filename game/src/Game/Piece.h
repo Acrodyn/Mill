@@ -10,7 +10,7 @@ public:
 	Piece(Vector2 position);
 	~Piece();
 
-	void Update();
+	void Update() override;
 
 private:
 	const float PIECE_SIZE = 40.f;

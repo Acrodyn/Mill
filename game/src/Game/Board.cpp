@@ -90,7 +90,7 @@ Piece* Board::CreatePiece(Node* parentNode)
         return nullptr;
     }
 
-    Piece* newPiece = new Piece(parentNode->GetPositionInRelationToScreen());
+    Piece* newPiece = new Piece(parentNode->GetScreenRelatedPosition());
     _pieces.push_back(newPiece);
     parentNode->SetHostedPiece(newPiece);
 

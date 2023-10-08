@@ -16,7 +16,8 @@ public:
 	Node(float positionX, float positionY);
 	~Node();
 
-	void Update();
+	void Update() override;
+
 	void PairWith(Node* node, Connection* connection);
 	float GetSize();
 	void SetHostedPiece(Piece* piece);

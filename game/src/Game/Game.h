@@ -4,7 +4,7 @@
 #include "System/GamePhase.h"
 
 class Board;
-
+class Button;
 
 class Game : public GamePhase
 {
@@ -22,4 +22,6 @@ private:
 
 private:
 	Board* _board = nullptr;
+
+	Button* _button = nullptr;
 };
