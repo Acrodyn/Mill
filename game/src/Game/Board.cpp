@@ -4,6 +4,8 @@
 #include "System/Core.h"
 #include "Connection.h"
 
+#include <iostream>
+
 Board::Board()
 {
 
@@ -47,11 +49,19 @@ void Board::Update()
 
 void Board::CheckForNodeClick()
 {
+   // Upgrade with different behaviours in relation to game phase
     for (Node* node : _nodes)
     {
         if (CheckCollisionPointCircle(GetMousePosition(), node->GetPosition(), node->GetSize() * COLLISION_CHECK_MULTIPLIER))
         {
-            CreatePiece(node);
+            if (CreatePiece(node) != nullptr)
+            {
+                if (CheckForMill(node))
+                {
+                    std::cout << "MILL!!!!!!" << std::endl;
+                }
+            }
+
             return;
         }
     }
@@ -89,12 +99,34 @@ Piece* Board::CreatePiece(Node* parentNode)
 
 void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direction)
 {
-    _connections.push_back(new Connection(node1, node2, direction));
-    PairNodes(node1, node2);
+    Connection* newConnection = new Connection(node1, node2, direction);
+    _connections.push_back(newConnection);
+    PairNodes(node1, node2, newConnection);
 }
 
-void Board::PairNodes(Node* node1, Node* node2)
+bool Board::CheckForMill(Node* node)
 {
-    node1->PairWith(node2);
-    node2->PairWith(node1);
+    ConnectionReport newReport;
+    node->CalculateConnections(newReport);
+
+    for (auto connection : newReport.Connections)
+    {
+        if (connection.second >= MILL_CONNECTION_CONDITION)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Board::CheckAdjacentNodesForConnections(Node* node)
+{
+    return false;
+}
+
+void Board::PairNodes(Node* node1, Node* node2, Connection* connection)
+{
+    node1->PairWith(node2, connection);
+    node2->PairWith(node1, connection);
 }

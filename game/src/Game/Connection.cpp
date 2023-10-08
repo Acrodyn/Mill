@@ -18,3 +18,8 @@ void Connection::Update()
 {
 	DrawLine(_node1->GetPositionX(), _node1->GetPositionY(), _node2->GetPositionX(), _node2->GetPositionY(), RAYWHITE);
 }
+
+ConnectionDirection Connection::GetDirection()
+{
+	return _direction;
+}

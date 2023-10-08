@@ -2,6 +2,7 @@
 
 #include "raylib.h"
 #include <vector>
+#include <unordered_map>
 
 class Node;
 
@@ -14,6 +15,11 @@ enum class ConnectionDirection
 	DiagonalRight // Top-bottom
 };
 
+struct ConnectionReport
+{
+	std::unordered_map<ConnectionDirection, int> Connections;
+};
+
 class Connection
 {
 public:
@@ -22,6 +28,7 @@ public:
 	~Connection();
 
 	void Update();
+	ConnectionDirection GetDirection();
 
 private:
 	Node* _node1 = nullptr;

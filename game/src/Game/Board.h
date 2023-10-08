@@ -21,12 +21,16 @@ public:
 	void CheckForPieceClick();
 
 protected:
+	virtual bool CheckForWinConditions() = 0;
+
 	Node* CreateNode(float screenPosX, float screenPosY);
 	Piece* CreatePiece(Node* parentNode);
 	void CreateConnection(Node* node1, Node* node2, ConnectionDirection direction);
 
 private:
-	void PairNodes(Node* node1, Node* node2);
+	bool CheckForMill(Node* node);
+	bool CheckAdjacentNodesForConnections(Node* node);
+	void PairNodes(Node* node1, Node* node2, Connection* connection);
 
 protected:
 	int _piecesPerPlayer = 0;
@@ -38,4 +42,5 @@ protected:
 
 private:
 	const int COLLISION_CHECK_MULTIPLIER = 3;
+	const int MILL_CONNECTION_CONDITION = 2;
 };

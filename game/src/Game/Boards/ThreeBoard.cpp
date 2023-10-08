@@ -1,6 +1,6 @@
 #include "ThreeBoard.h"
 #include "System/Core.h"
-#include "Connection.h"
+#include "Game/Connection.h"
 
 ThreeBoard::ThreeBoard()
 {
@@ -49,4 +49,9 @@ void ThreeBoard::Init()
 void ThreeBoard::Update()
 {
 	Board::Update();
+}
+
+bool ThreeBoard::CheckForWinConditions()
+{
+	return false;
 }

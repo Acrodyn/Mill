@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "System/Core.h"
 #include "Board.h"
-#include "ThreeBoard.h"
+#include "Boards/ThreeBoard.h"
 
 Game::Game()
 {

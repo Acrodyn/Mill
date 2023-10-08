@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Board.h"
+#include "Game/Board.h"
 #include "raylib.h"
 
 class NineBoard : public Board
@@ -13,4 +13,5 @@ public:
 	void Update() override;
 
 private:
+	bool CheckForWinConditions() override;
 };

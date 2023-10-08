@@ -21,3 +21,8 @@ void NineBoard::Update()
 {
 	Board::Update();
 }
+
+bool NineBoard::CheckForWinConditions()
+{
+	return false;
+}
