@@ -1,10 +1,9 @@
 #include "NineBoard.h"
 #include "System/Core.h"
 
-NineBoard::NineBoard()
+NineBoard::NineBoard() : Board(9)
 {
-	_piecesPerPlayer = 9;
-	_nodesCount = 24;
+
 }
 
 NineBoard::~NineBoard()
@@ -12,14 +11,9 @@ NineBoard::~NineBoard()
 	
 }
 
-void NineBoard::Init()
+void NineBoard::SetupBoard()
 {
 
-}
-
-void NineBoard::Update()
-{
-	Board::Update();
 }
 
 bool NineBoard::CheckForWinConditions()

@@ -9,9 +9,7 @@ public:
 	ThreeBoard();
 	~ThreeBoard();
 
-	void Init() override;
-	void Update() override;
-
 private:
+	void SetupBoard() override;
 	bool CheckForWinConditions() override;
 };

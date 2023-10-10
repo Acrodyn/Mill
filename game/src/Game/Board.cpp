@@ -1,12 +1,18 @@
 #include "Board.h"
 #include "Piece.h"
 #include "Node.h"
+#include "Player.h"
 #include "System/Core.h"
 #include "Connection.h"
 
 #include <iostream>
 
 Board::Board()
+{
+
+}
+
+Board::Board(uint8_t piecesPerPlayer) : PIECES_PER_PLAYER(piecesPerPlayer)
 {
 
 }
@@ -27,6 +33,17 @@ Board::~Board()
     {
         delete piece;
     }
+
+    for (Player* player : _players)
+    {
+        delete player;
+    }
+}
+
+void Board::Init()
+{
+    SetupBoard();
+    SetupPlayers();
 }
 
 void Board::Update()
@@ -75,6 +92,16 @@ void Board::CheckForPieceClick()
     }
 }
 
+Player* Board::GetPlayer(uint8_t playerOrder)
+{
+    if (_players.size() < playerOrder)
+    {
+        return nullptr;
+    }
+
+    return _players.at(playerOrder - 1);
+}
+
 Node* Board::CreateNode(float screenPosX, float screenPosY)
 {
     Node* newNode = new Node(screenPosX, screenPosY);
@@ -102,6 +129,16 @@ void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direc
     Connection* newConnection = new Connection(node1, node2, direction);
     _connections.push_back(newConnection);
     PairNodes(node1, node2, newConnection);
+}
+
+void Board::SetupPlayers()
+{
+    for (int i = 0; i < PLAYER_COUNT; ++i)
+    {
+        Player* newPlayer = new Player();
+        newPlayer->SetPieceCount(PIECES_PER_PLAYER);
+        _players.push_back(newPlayer);
+    }
 }
 
 bool Board::CheckForMill(Node* node)

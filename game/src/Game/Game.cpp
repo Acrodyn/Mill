@@ -23,12 +23,12 @@ void Game::Init()
 	_board = new ThreeBoard();
 	_board->Init();
 
-	Button* resetButton = new Button(0.15f, 0.9f, 150, 50);
+	Button* resetButton = new Button(0.08f, 0.95f, 150, 50);
 	resetButton->AttachLabel(new Label(20, "Reset"));
 	resetButton->RegisterOnClick([&]() { Reset(); });
 	_screenObjects.push_back(resetButton);
 
-	Button* menuButton = new Button(0.85f, 0.9f, 150, 50);
+	Button* menuButton = new Button(0.92f, 0.95f, 150, 50);
 	menuButton->AttachLabel(new Label(20, "Menu"));
 	menuButton->RegisterOnClick([&]() { ReturnToMenu(); });
 	_screenObjects.push_back(menuButton);

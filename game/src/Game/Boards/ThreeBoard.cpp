@@ -2,10 +2,9 @@
 #include "System/Core.h"
 #include "Game/Connection.h"
 
-ThreeBoard::ThreeBoard()
+ThreeBoard::ThreeBoard() : Board(3)
 {
-	_piecesPerPlayer = 3;
-	_nodesCount = 9;
+
 }
 
 ThreeBoard::~ThreeBoard()
@@ -13,7 +12,7 @@ ThreeBoard::~ThreeBoard()
 	
 }
 
-void ThreeBoard::Init()
+void ThreeBoard::SetupBoard()
 {
 	Node* topLeft = CreateNode(0.3f, 0.2f);
 	Node* topCenter = CreateNode(0.5f, 0.2f);
@@ -44,11 +43,6 @@ void ThreeBoard::Init()
 	CreateConnection(botLeft, midLeft, ConnectionDirection::Vertical);
 	CreateConnection(botCenter, botRight, ConnectionDirection::Horizontal);
 	CreateConnection(botRight, midRight, ConnectionDirection::Vertical);
-}
-
-void ThreeBoard::Update()
-{
-	Board::Update();
 }
 
 bool ThreeBoard::CheckForWinConditions()
