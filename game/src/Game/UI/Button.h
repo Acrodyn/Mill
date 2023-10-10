@@ -6,7 +6,7 @@
 
 class Label;
 
-class Button : public ScreenRelatedObject, public ICLickable
+class Button : public ScreenRelatedObject, public IClickable
 {
 public:
 	Button() = delete;
@@ -17,6 +17,8 @@ public:
 	bool IsMouseOnObject() override;
 	void OnClickPressed() override;
 	void OnClickReleased() override;
+	void RegisterOnClick(Function onClick) override;
+	void RegisterOnRelease(Function onRelease) override;
 
 	void SetColor(CLITERAL(Color) color);
 	void SetPressedColor(CLITERAL(Color) color);
@@ -32,4 +34,7 @@ private:
 	CLITERAL(Color) _pressedColor;
 	Label* _attachedLabel = nullptr;
 	bool _isPressed = false;
+
+	Function _onClick = nullptr;
+	Function _OnRelease = nullptr;
 };

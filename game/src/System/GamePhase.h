@@ -12,16 +12,18 @@ public:
 	void End();
 	void Update();
 	bool IsEnded();
+	bool IsReset();
 
 protected:
-	virtual void InitPhase();
-	virtual void DestroyPhase();
-	virtual void LoopPhase() = 0;
+	virtual void Init();
+	virtual void Clean();
+	virtual void Loop() = 0;
 
 private:
 	void TransitionTo();
 	void TransitionFrom();
-	void CheckForTransitions();
+	void UpdateTransitions();
+	GamePhaseState GetLeadingState();
 
 protected:
 	GamePhaseState _phaseState = GamePhaseState::Unset;

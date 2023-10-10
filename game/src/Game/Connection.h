@@ -31,7 +31,7 @@ public:
 	ConnectionDirection GetDirection();
 
 private:
-	Node* _node1 = nullptr;
-	Node* _node2 = nullptr;
-	ConnectionDirection _direction = ConnectionDirection::Unset;
+	const Node* const _node1 = nullptr;
+	const Node* const _node2 = nullptr;
+	const ConnectionDirection _direction;
 };

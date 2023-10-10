@@ -13,10 +13,10 @@ public:
 
 	virtual void Update() = 0;
 
-	int GetPositionX();
-	int GetPositionY();
-	Vector2 GetPosition();
-	Vector2 GetScreenRelatedPosition();
+	int GetPositionX() const;
+	int GetPositionY() const;
+	Vector2 GetPosition() const;
+	Vector2 GetScreenRelatedPosition() const;
 	void SetAnchorObject(ScreenRelatedObject* anchorObject);
 	void SetOffset(Vector2 offset);
 

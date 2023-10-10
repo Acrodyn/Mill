@@ -36,12 +36,28 @@ bool Button::IsMouseOnObject()
 
 void Button::OnClickPressed()
 {
-	
+	if (_onClick != nullptr)
+	{
+		_onClick();
+	}
 }
 
 void Button::OnClickReleased()
 {
-	
+	if (_OnRelease !=  nullptr)
+	{
+		_OnRelease();
+	}
+}
+
+void Button::RegisterOnClick(Function onClick)
+{
+	_onClick = onClick;
+}
+
+void Button::RegisterOnRelease(Function onRelease)
+{
+	_OnRelease = onRelease;
 }
 
 void Button::SetColor(CLITERAL(Color) color)

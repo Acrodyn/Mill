@@ -112,7 +112,7 @@ bool Core::Init()
 	}
 
 	//InitAppState(AppPhase::Menu);
-	InitAppState(AppPhase::Game); // for testing
+	InitAppState(AppState::Game); // for testing
 
 	return true;
 }
@@ -122,13 +122,8 @@ void Core::Terminate()
 	CloseWindow();
 }
 
-void Core::InitAppState(AppPhase newState)
+void Core::InitAppState(AppState newState)
 {
-	if (_currentState == newState)
-	{
-		return;
-	}
-
 	_currentState = newState;
 
 	if (_gamePhase != nullptr)
@@ -139,16 +134,30 @@ void Core::InitAppState(AppPhase newState)
 
 	switch (_currentState)
 	{
-	case AppPhase::Menu:
+	case AppState::Menu:
 		_gamePhase = new Menu();
 		break;
-	case AppPhase::Game:
+	case AppState::Game:
 		_gamePhase = new Game();
 		break;
 	default:
 		return;
 	}
 
+	if (_gamePhase != nullptr)
+	{
+		_gamePhase->Start();
+	}
+}
+
+void Core::ReinitAppState()
+{
+	if (_gamePhase == nullptr)
+	{
+		return;
+	}
+
+	_gamePhase->End();
 	_gamePhase->Start();
 }
 
@@ -157,6 +166,10 @@ void Core::CheckForPhaseChange()
 	if (_gamePhase->IsEnded())
 	{
 		InitAppState(GetNextPhase());
+	}
+	else if (_gamePhase->IsReset())
+	{
+		ReinitAppState();
 	}
 }
 
@@ -168,21 +181,21 @@ void Core::CheckForSystemInputs()
 	}
 }
 
-AppPhase Core::GetNextPhase()
+AppState Core::GetNextPhase()
 {
 	if (_gamePhase == nullptr)
 	{
-		return AppPhase::Unset;
+		return AppState::Unset;
 	}
 
 	switch (_currentState)
 	{
-	case AppPhase::Menu:
-		return AppPhase::Game;
-	case AppPhase::Game:
-		return AppPhase::Menu;
+	case AppState::Menu:
+		return AppState::Game;
+	case AppState::Game:
+		return AppState::Menu;
 	default:
-		return AppPhase::Unset;
+		return AppState::Unset;
 	}
 }
 

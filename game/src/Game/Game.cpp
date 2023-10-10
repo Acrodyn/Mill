@@ -6,12 +6,35 @@
 #include "UI/Label.h"
 #include "System/ScreenRelatedObject.h"
 
+#include <iostream>
+
 Game::Game()
 {
-	_board = new ThreeBoard();
+	
 }
 
 Game::~Game()
+{
+
+}
+
+void Game::Init()
+{
+	_board = new ThreeBoard();
+	_board->Init();
+
+	Button* resetButton = new Button(0.15f, 0.9f, 150, 50);
+	resetButton->AttachLabel(new Label(20, "Reset"));
+	resetButton->RegisterOnClick([&]() { Reset(); });
+	_screenObjects.push_back(resetButton);
+
+	Button* menuButton = new Button(0.85f, 0.9f, 150, 50);
+	menuButton->AttachLabel(new Label(20, "Menu"));
+	menuButton->RegisterOnClick([&]() { ReturnToMenu(); });
+	_screenObjects.push_back(menuButton);
+}
+
+void Game::Clean()
 {
 	delete _board;
 
@@ -19,23 +42,11 @@ Game::~Game()
 	{
 		delete screenObject;
 	}
+
+	_screenObjects.clear();
 }
 
-void Game::InitPhase()
-{
-	_board->Init();
-
-	Button* resetButton = new Button(0.15f, 0.15f, 200, 100);
-	resetButton->AttachLabel(new Label(20, "Test"));
-	_screenObjects.push_back(resetButton);
-}
-
-void Game::DestroyPhase()
-{
-
-}
-
-void Game::LoopPhase()
+void Game::Loop()
 {
 	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), BLACK);
 	_board->Update();
@@ -54,4 +65,14 @@ void Game::CheckForInput()
 	{
 		_board->CheckForNodeClick();
 	}
+}
+
+void Game::Reset()
+{
+	_phaseState = GamePhaseState::Reseting;
+}
+
+void Game::ReturnToMenu()
+{
+	_phaseState = GamePhaseState::Ending;
 }

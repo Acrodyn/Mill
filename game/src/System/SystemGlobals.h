@@ -1,6 +1,6 @@
 #pragma once
 
-enum class AppPhase {
+enum class AppState {
     Unset,
     Menu,
     Game
@@ -9,8 +9,10 @@ enum class AppPhase {
 enum class GamePhaseState {
     Unset,
     Starting,
+    Running,
     Ending,
     Ended,
-    Running,
-    Paused
+    Paused,
+    Reseting,
+    Reset
 };

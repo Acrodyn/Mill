@@ -16,12 +16,12 @@ void GamePhase::Start()
 {
 	_phaseState = GamePhaseState::Starting;
 	_transitionAlpha = 1.f;
-	InitPhase();
+	Init();
 }
 
 void GamePhase::End()
 {
-	DestroyPhase();
+	Clean();
 }
 
 void GamePhase::Update()
@@ -31,8 +31,8 @@ void GamePhase::Update()
 		return;
 	}
 
-	LoopPhase();
-	CheckForTransitions();
+	Loop();
+	UpdateTransitions();
 }
 
 bool GamePhase::IsEnded()
@@ -40,41 +40,46 @@ bool GamePhase::IsEnded()
 	return _phaseState == GamePhaseState::Ended;
 }
 
-void GamePhase::InitPhase()
+bool GamePhase::IsReset()
+{
+	return _phaseState == GamePhaseState::Reset;
+} 
+
+void GamePhase::Init()
 {
 
 }
 
-void GamePhase::DestroyPhase()
+void GamePhase::Clean()
 {
 
 }
 
 void GamePhase::TransitionTo()
 {
-	if (_transitionAlpha < 0.f)
+	if (_transitionAlpha <= 0.f)
 	{
-		_phaseState = GamePhaseState::Running;
+		_phaseState = GetLeadingState();
+		_transitionAlpha = 0.f;
 		return;
 	}
 
-	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), Fade(BLACK, _transitionAlpha));
 	_transitionAlpha -= _transitionToSpeed * GetFrameTime();
 }
 
 void GamePhase::TransitionFrom()
 {
-	if (_transitionAlpha > 1.f)
+	if (_transitionAlpha >= 1.f)
 	{
-		_phaseState = GamePhaseState::Ended;
+		_phaseState = GetLeadingState();
+		_transitionAlpha = 1.f;
 		return;
 	}
 
-	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), Fade(BLACK, _transitionAlpha));
 	_transitionAlpha += _transitionFromSpeed * GetFrameTime();
 }
 
-void GamePhase::CheckForTransitions()
+void GamePhase::UpdateTransitions()
 {
 	if (_phaseState != GamePhaseState::Running)
 	{
@@ -84,10 +89,31 @@ void GamePhase::CheckForTransitions()
 			TransitionTo();
 			break;
 		case GamePhaseState::Ending:
+		case GamePhaseState::Reseting:
 			TransitionFrom();
 			break;
 		default:
 			break;
 		}
+	}
+
+	if (_transitionAlpha > 0.f)
+	{
+		DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), Fade(BLACK, _transitionAlpha));
+	}
+}
+
+GamePhaseState GamePhase::GetLeadingState()
+{
+	switch (_phaseState)
+	{
+	case GamePhaseState::Starting:
+		return GamePhaseState::Running;
+	case GamePhaseState::Ending:
+		return GamePhaseState::Ended;
+	case GamePhaseState::Reseting:
+		return GamePhaseState::Reset;
+	default:
+		return GamePhaseState::Unset;
 	}
 }

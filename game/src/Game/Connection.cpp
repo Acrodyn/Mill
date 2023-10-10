@@ -2,11 +2,9 @@
 #include "Node.h"
 #include "System/Core.h"
 
-Connection::Connection(Node* node1, Node* node2, ConnectionDirection direction)
+Connection::Connection(Node* node1, Node* node2, ConnectionDirection direction) : _node1(node1), _node2(node2), _direction(direction)
 {
-	_node1 = node1;
-	_node2 = node2;
-	_direction = direction;
+
 }
 
 Connection::~Connection()

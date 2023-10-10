@@ -78,4 +78,4 @@ void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNode
 			pairedNode.first->CalculateConnections(report, false, this, pairedNode.second->GetDirection());
 		}
 	}
-}
+} 

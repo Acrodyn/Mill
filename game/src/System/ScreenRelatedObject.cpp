@@ -31,7 +31,7 @@ ScreenRelatedObject::~ScreenRelatedObject()
 
 }
 
-int ScreenRelatedObject::GetPositionX()
+int ScreenRelatedObject::GetPositionX() const
 {
 	if (_anchorObject != nullptr)
 	{
@@ -41,7 +41,7 @@ int ScreenRelatedObject::GetPositionX()
 	return (int)(Core::GetPixelPositionWidth(_screenRelatedPosition.x) + _offset.x);
 }
 
-int ScreenRelatedObject::GetPositionY()
+int ScreenRelatedObject::GetPositionY() const
 {
 	if (_anchorObject != nullptr)
 	{
@@ -51,7 +51,7 @@ int ScreenRelatedObject::GetPositionY()
 	return (int)(Core::GetPixelPositionHeight(_screenRelatedPosition.y) + _offset.y);
 }
 
-Vector2 ScreenRelatedObject::GetPosition()
+Vector2 ScreenRelatedObject::GetPosition() const
 {
 	if (_anchorObject != nullptr)
 	{
@@ -61,7 +61,7 @@ Vector2 ScreenRelatedObject::GetPosition()
 	return Vector2Add(Core::GetPixelPosition(_screenRelatedPosition.x, _screenRelatedPosition.y), _offset);
 }
 
-Vector2 ScreenRelatedObject::GetScreenRelatedPosition()
+Vector2 ScreenRelatedObject::GetScreenRelatedPosition() const
 {
 	return _screenRelatedPosition;
 }

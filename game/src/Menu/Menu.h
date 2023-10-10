@@ -8,7 +8,7 @@ public:
 	Menu();
 
 protected:
-	void LoopPhase() override;
+	void Loop() override;
 
 private:
 };

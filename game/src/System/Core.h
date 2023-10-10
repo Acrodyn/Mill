@@ -24,18 +24,19 @@ public:
 private:
 	bool Init();
 	void Terminate();
-	void InitAppState(AppPhase newState);
+	void InitAppState(AppState newState);
+	void ReinitAppState();
 
 	void CheckForPhaseChange();
 	void CheckForSystemInputs();
-	AppPhase GetNextPhase();
+	AppState GetNextPhase();
 
 	void SetFullScreen();
 	void ExitFullScreen();
 	void SwitchFullScreen();
 
 private:
-	AppPhase _currentState = AppPhase::Unset;
+	AppState _currentState = AppState::Unset;
 	GamePhase* _gamePhase = nullptr;
 
 	int defaultScreenWidth = 1280;

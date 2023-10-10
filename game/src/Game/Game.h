@@ -15,12 +15,14 @@ public:
 	~Game();
 
 protected:
-	void InitPhase() override;
-	void DestroyPhase() override;
-	void LoopPhase() override;
+	void Init() override;
+	void Clean() override;
+	void Loop() override;
 
 private:
 	void CheckForInput();
+	void Reset();
+	void ReturnToMenu();
 
 private:
 	Board* _board = nullptr;

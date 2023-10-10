@@ -7,7 +7,7 @@ Menu::Menu()
 
 }
 
-void Menu::LoopPhase()
+void Menu::Loop()
 {
 	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), DARKGRAY);
 	DrawText("Test", 200, 200, 20, WHITE);
