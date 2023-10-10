@@ -1,19 +1,20 @@
 #include "Label.h"
+#include "raymath.h"
 #include "System/Core.h"
 
-Label::Label(float positionX, float positionY) : ScreenRelatedObject{ positionX, positionY }, _fontSize(DEFAULT_SIZE), _text(nullptr), _textColor(BLACK)
+Label::Label(float positionX, float positionY) : ScreenRelatedObject{ positionX, positionY }, _fontSize(DEFAULT_SIZE), _text(std::string()), _textColor(BLACK)
 {
-
+	RefreshOffset();
 }
 
-Label::Label(int fontSize, char* text) : _fontSize(fontSize), _text(text), _textColor(BLACK)
+Label::Label(int fontSize, std::string text) : _fontSize(fontSize), _text(text), _textColor(BLACK)
 {
-
+	RefreshOffset();
 }
 
-Label::Label(float positionX, float positionY, int fontSize, char* text) : ScreenRelatedObject{ positionX, positionY }, _fontSize(fontSize), _text(text), _textColor(BLACK)
+Label::Label(float positionX, float positionY, int fontSize, std::string text) : ScreenRelatedObject{ positionX, positionY }, _fontSize(fontSize), _text(text), _textColor(BLACK)
 {
-
+	RefreshOffset();
 }
 
 Label::~Label()
@@ -23,25 +24,38 @@ Label::~Label()
 
 void Label::Update()
 {
-	DrawText(_text, GetPositionX(), GetPositionY(), _fontSize, _textColor);
+	DrawText(_text.c_str(), GetPositionX(), GetPositionY(), _fontSize, _textColor);
 }
 
 Vector2 Label::GetTextDimensions()
 {
-	return MeasureTextEx(GetFontDefault(), _text, (float)_fontSize, 0.f);
+	return MeasureTextEx(GetFontDefault(), _text.c_str(), (float)_fontSize, 1.f);
 }
 
 void Label::SetFontSize(int fontSize)
 {
 	_fontSize = fontSize;
+	RefreshOffset();
 }
 
 void Label::SetText(char* text)
 {
 	_text = text;
+	RefreshOffset();
+}
+
+void Label::SetText(std::string text)
+{
+	_text = text;
+	RefreshOffset();
 }
 
 void Label::SetColor(CLITERAL(Color) color)
 {
 	_textColor = color;
+}
+
+void Label::RefreshOffset()
+{
+	SetOffset(Vector2Negate(Vector2Scale(GetTextDimensions(), 0.5f)));
 }

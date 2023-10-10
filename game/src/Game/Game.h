@@ -20,6 +20,7 @@ protected:
 	void Loop() override;
 
 private:
+	void InitUI();
 	void CheckForInput();
 	void Reset();
 	void ReturnToMenu();
