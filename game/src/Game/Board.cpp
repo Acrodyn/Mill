@@ -29,11 +29,6 @@ Board::~Board()
         delete node;
     }
 
-    for (Piece* piece: _pieces)
-    {
-        delete piece;
-    }
-
     for (Player* player : _players)
     {
         delete player;
@@ -58,40 +53,24 @@ void Board::Update()
     {
         node->Update();
     }
-
-    for (Piece* piece : _pieces)
-    {
-        piece->Update(); 
-    }
 }
 
-void Board::CheckForNodeClick()
+void Board::CheckForNodeInteraction()
 {
-   // Upgrade with different behaviours in relation to game phase
+    if (!ShouldCheckNodeInteractions())
+    {
+        return;
+    }
+
     for (Node* node : _nodes)
     {
         if (CheckCollisionPointCircle(GetMousePosition(), node->GetPosition(), node->GetSize() * COLLISION_CHECK_MULTIPLIER))
         {
-            if (CreatePiece(node) != nullptr)
+            if (EvaluateNodeInteraction(node))
             {
-                if (CheckForMill(node))
-                {
-                    std::cout << "MILL!!!!!!" << std::endl;
-                }
-
-                StartNextPlayer();
+                return;
             }
-
-            return;
         }
-    }
-}
-
-void Board::CheckForPieceClick()
-{
-    for (Piece* piece : _pieces)
-    {
-
     }
 }
 
@@ -110,6 +89,30 @@ Player* Board::GetCurrentPlayer()
     return _players.at(_currentPlayerIndex);
 }
 
+std::string Board::GetPhaseDescription(uint8_t playerOrder)
+{
+    switch (GetPlayer(playerOrder)->GetPhase())
+    {
+    case PlayerPhase::Placing:
+        return "Place a piece";
+    case PlayerPhase::Removing:
+        return "Remove opponent's piece";
+    case PlayerPhase::Moving:
+        return "Move a piece to an adjacent node";
+    case PlayerPhase::Flying:
+        return "Move a piece to any free node";
+    case PlayerPhase::Victory:
+        return "Victory";
+    case PlayerPhase::Defeat:
+        return "Defeat";
+    case PlayerPhase::Waiting:
+        return "Wait";
+
+    default:
+        return std::string();
+    }
+}
+
 Node* Board::CreateNode(float screenPosX, float screenPosY)
 {
     Node* newNode = new Node(screenPosX, screenPosY);
@@ -126,7 +129,6 @@ Piece* Board::CreatePiece(Node* parentNode)
     }
 
     Piece* newPiece = new Piece(parentNode->GetScreenRelatedPosition(), GetCurrentPlayer());
-    _pieces.push_back(newPiece);
     parentNode->SetHostedPiece(newPiece);
 
     return newPiece;
@@ -145,6 +147,7 @@ void Board::SetupPlayers()
     {
         Player* newPlayer = new Player(i);
         newPlayer->SetPieceCount(PIECES_PER_PLAYER);
+        newPlayer->SetPhase(PlayerPhase::Placing);
         _players.push_back(newPlayer);
     }
 }
@@ -152,6 +155,113 @@ void Board::SetupPlayers()
 void Board::StartNextPlayer()
 {
     _currentPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
+}
+
+bool Board::CheckIfWinner(Player* player)
+{
+    if (CheckForWinConditions())
+    {
+        MarkPlayerAsWinner(player);
+        return true;
+    }
+
+    return false;
+}
+
+void Board::MarkPlayerAsWinner(Player* winningPlayer)
+{
+    for (Player* player : _players)
+    {
+        if (winningPlayer != player)
+        {
+            player->SetPhase(PlayerPhase::Defeat);
+        }
+    }
+
+    winningPlayer->SetPhase(PlayerPhase::Victory);
+}
+
+bool Board::EvaluateNodeInteraction(Node* node)
+{
+    PlayerPhase currentPhase = GetCurrentPlayer()->GetPhase();
+
+    switch (currentPhase)
+    {
+    case PlayerPhase::Moving:
+        return TryPiecePlacement(node);
+    case PlayerPhase::Placing:
+        return TryPiecePlacement(node);
+    case PlayerPhase::Removing:
+        return TryPieceRemoval(node);
+    case PlayerPhase::Flying:
+        return TryPieceFlight(node);
+    default:
+        return false;
+    }
+}
+
+bool Board::ShouldCheckNodeInteractions()
+{
+    PlayerPhase currentPhase = GetCurrentPlayer()->GetPhase();
+
+    return (currentPhase == PlayerPhase::Moving
+        || currentPhase == PlayerPhase::Placing
+        || currentPhase == PlayerPhase::Removing
+        || currentPhase == PlayerPhase::Flying);
+}
+
+bool Board::TryPiecePlacement(Node* node)
+{
+    Player* currentPlayer = GetCurrentPlayer();
+
+    if (!currentPlayer->HasRemainingPieces())
+    {
+        return false;
+    }
+
+    if (CreatePiece(node) != nullptr)
+    {
+        GetCurrentPlayer()->RemovePiece();
+
+        if (CheckForMill(node))
+        {
+            if (!CheckIfWinner(currentPlayer))
+            {
+                currentPlayer->SetPhase(PlayerPhase::Removing);
+            }
+
+            return true;
+        }
+
+        StartNextPlayer();
+    }
+
+    return true;
+}
+
+bool Board::TryPieceRemoval(Node* node)
+{
+    if (node->HasHostedPiece())
+    {
+        node->RemoveHostedPiece();
+        GetCurrentPlayer()->BacktrackPhase();
+        StartNextPlayer();
+        GetCurrentPlayer()->AddPiece();
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Board::TryPieceMovement(Node* node)
+{
+    return false;
+}
+
+bool Board::TryPieceFlight(Node* node)
+{
+    return false;
 }
 
 bool Board::CheckForMill(Node* node)

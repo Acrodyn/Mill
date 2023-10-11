@@ -10,12 +10,19 @@ Node::Node(float positionX, float positionY) : ScreenRelatedObject{ positionX,  
 
 Node::~Node()
 {
-	
+	RemoveHostedPiece();
 }
 
 void Node::Update()
 {
-	DrawCircle(GetPositionX(), GetPositionY(), NODE_SIZE, RAYWHITE);
+	if (_hostedPiece != nullptr)
+	{
+		_hostedPiece->Update();
+	}
+	else
+	{
+		DrawCircle(GetPositionX(), GetPositionY(), NODE_SIZE, RAYWHITE);
+	}
 }
 
 void Node::PairWith(Node* node, Connection* connection)
@@ -33,9 +40,18 @@ void Node::SetHostedPiece(Piece* piece)
 	_hostedPiece = piece;
 }
 
-void Node::ResetHostedPiece()
+void Node::RemoveHostedPiece()
 {
-	_hostedPiece = nullptr;
+	if (_hostedPiece != nullptr)
+	{
+		delete _hostedPiece;
+		_hostedPiece = nullptr;
+	}
+}
+
+bool Node::HasHostedPiece()
+{
+	return _hostedPiece != nullptr;
 }
 
 Piece* Node::GetHostedPiece()

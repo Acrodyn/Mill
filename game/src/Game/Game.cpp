@@ -85,7 +85,7 @@ void Game::CheckForInput()
 {
 	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
 	{
-		_board->CheckForNodeClick();
+		_board->CheckForNodeInteraction();
 	}
 }
 

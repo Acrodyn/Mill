@@ -21,6 +21,6 @@ public:
 
 private:
 	RefreshFunction _refreshFunction;
-	float _refreshRate = 1.f;
+	float _refreshRate = 0.3f;
 	float _timeUntilRefresh = 0.f;
 };

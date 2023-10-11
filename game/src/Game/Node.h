@@ -21,7 +21,8 @@ public:
 	void PairWith(Node* node, Connection* connection);
 	float GetSize();
 	void SetHostedPiece(Piece* piece);
-	void ResetHostedPiece();
+	void RemoveHostedPiece();
+	bool HasHostedPiece();
 	Piece* GetHostedPiece();
 	void CalculateConnections(ConnectionReport& report);
 

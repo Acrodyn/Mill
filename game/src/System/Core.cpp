@@ -100,7 +100,7 @@ bool Core::Init()
 {
 	try
 	{
-		SetConfigFlags(FLAG_MSAA_4X_HINT);
+		SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_RESIZABLE);
 		InitWindow(defaultScreenWidth, defaultScreenHeight, "Mlin");
 		SetTargetFPS(120);
 		//SetFullScreen();
