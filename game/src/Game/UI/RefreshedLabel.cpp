@@ -37,7 +37,6 @@ void RefreshedLabel::Update()
 
 		_timeUntilRefresh = _refreshRate;
 	}
-
 }
 
 void RefreshedLabel::RegisterRefreshFunction(RefreshFunction refreshFunction)

@@ -40,8 +40,9 @@ Board::~Board()
     }
 }
 
-void Board::Init()
+void Board::Init(uint8_t playerCount)
 {
+    _playerCount = playerCount;
     SetupBoard();
     SetupPlayers();
 }
@@ -77,6 +78,8 @@ void Board::CheckForNodeClick()
                 {
                     std::cout << "MILL!!!!!!" << std::endl;
                 }
+
+                StartNextPlayer();
             }
 
             return;
@@ -102,6 +105,11 @@ Player* Board::GetPlayer(uint8_t playerOrder)
     return _players.at(playerOrder - 1);
 }
 
+Player* Board::GetCurrentPlayer()
+{
+    return _players.at(_currentPlayerIndex);
+}
+
 Node* Board::CreateNode(float screenPosX, float screenPosY)
 {
     Node* newNode = new Node(screenPosX, screenPosY);
@@ -112,12 +120,12 @@ Node* Board::CreateNode(float screenPosX, float screenPosY)
 
 Piece* Board::CreatePiece(Node* parentNode)
 {
-    if (parentNode->GetOccupiedPiece() != nullptr)
+    if (parentNode->GetHostedPiece() != nullptr)
     {
         return nullptr;
     }
 
-    Piece* newPiece = new Piece(parentNode->GetScreenRelatedPosition());
+    Piece* newPiece = new Piece(parentNode->GetScreenRelatedPosition(), GetCurrentPlayer());
     _pieces.push_back(newPiece);
     parentNode->SetHostedPiece(newPiece);
 
@@ -133,12 +141,17 @@ void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direc
 
 void Board::SetupPlayers()
 {
-    for (int i = 0; i < PLAYER_COUNT; ++i)
+    for (int i = 0; i < _playerCount; ++i)
     {
-        Player* newPlayer = new Player();
+        Player* newPlayer = new Player(i);
         newPlayer->SetPieceCount(PIECES_PER_PLAYER);
         _players.push_back(newPlayer);
     }
+}
+
+void Board::StartNextPlayer()
+{
+    _currentPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
 }
 
 bool Board::CheckForMill(Node* node)

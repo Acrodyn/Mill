@@ -22,7 +22,7 @@ public:
 	float GetSize();
 	void SetHostedPiece(Piece* piece);
 	void ResetHostedPiece();
-	Piece* GetOccupiedPiece();
+	Piece* GetHostedPiece();
 	void CalculateConnections(ConnectionReport& report);
 
 private:

@@ -20,9 +20,7 @@ Game::~Game()
 
 void Game::Init()
 {
-	_board = new ThreeBoard();
-	_board->Init();
-
+	InitBoard();
 	InitUI();
 }
 
@@ -40,7 +38,7 @@ void Game::Clean()
 
 void Game::Loop()
 {
-	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), BLACK);
+	DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), GRAYISH);
 	_board->Update();
 
 	for (ScreenRelatedObject* screenObject : _screenObjects)
@@ -49,6 +47,15 @@ void Game::Loop()
 	}
 
 	CheckForInput();
+}
+
+void Game::InitBoard()
+{
+	_board = new ThreeBoard();
+	_board->Init();
+
+	_board->GetPlayer(1)->SetColor(RED);
+	_board->GetPlayer(2)->SetColor(WHITE);
 }
 
 void Game::InitUI()

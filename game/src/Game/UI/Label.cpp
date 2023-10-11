@@ -4,7 +4,7 @@
 
 Label::Label(float positionX, float positionY) : ScreenRelatedObject{ positionX, positionY }, _fontSize(DEFAULT_SIZE), _text(std::string()), _textColor(BLACK)
 {
-	RefreshOffset();
+
 }
 
 Label::Label(int fontSize, std::string text) : _fontSize(fontSize), _text(text), _textColor(BLACK)
@@ -35,12 +35,6 @@ Vector2 Label::GetTextDimensions()
 void Label::SetFontSize(int fontSize)
 {
 	_fontSize = fontSize;
-	RefreshOffset();
-}
-
-void Label::SetText(char* text)
-{
-	_text = text;
 	RefreshOffset();
 }
 

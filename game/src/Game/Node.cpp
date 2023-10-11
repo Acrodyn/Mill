@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "Connection.h"
+#include "Piece.h"
 #include "System/Core.h"
 
 Node::Node(float positionX, float positionY) : ScreenRelatedObject{ positionX,  positionY }
@@ -37,7 +38,7 @@ void Node::ResetHostedPiece()
 	_hostedPiece = nullptr;
 }
 
-Piece* Node::GetOccupiedPiece()
+Piece* Node::GetHostedPiece()
 {
 	return _hostedPiece;
 }
@@ -58,8 +59,12 @@ void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNode
 	{
 		if (pairedNode.first->_hostedPiece != nullptr && &(*pairedNode.first) != &(*filterNode))
 		{
-			ConnectionDirection nodeDirection = pairedNode.second->GetDirection();
+			if (_hostedPiece->GetOwningPlayerIndex() != pairedNode.first->_hostedPiece->GetOwningPlayerIndex())
+			{
+				continue;
+			}
 
+			ConnectionDirection nodeDirection = pairedNode.second->GetDirection();
 			if (relevantDirection != ConnectionDirection::Unset && nodeDirection != relevantDirection)
 			{
 				continue;
@@ -78,4 +83,4 @@ void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNode
 			pairedNode.first->CalculateConnections(report, false, this, pairedNode.second->GetDirection());
 		}
 	}
-} 
+}
