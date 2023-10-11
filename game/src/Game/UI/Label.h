@@ -10,8 +10,8 @@ class Label : public ScreenRelatedObject
 public:
 	Label() = delete;
 	Label(float positionX, float positionY);
-	Label(int fontSize, std::string text);
-	Label(float positionX, float positionY, int fontSize, std::string text);
+	Label(int fontSize, std::string text = " ");
+	Label(float positionX, float positionY, int fontSize, std::string text = " ");
 	virtual ~Label();
 
 	virtual void Update() override;
@@ -23,7 +23,7 @@ public:
 	void RefreshOffset();
 
 protected:
-	const int DEFAULT_SIZE = 50;
+	const int DEFAULT_SIZE = 30;
 
 	int _fontSize;
 	std::string _text;

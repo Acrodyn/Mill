@@ -40,6 +40,7 @@ void Board::Init(uint8_t playerCount)
     _playerCount = playerCount;
     SetupBoard();
     SetupPlayers();
+    _isGameInProgress = true;
 }
 
 void Board::Update()
@@ -76,7 +77,7 @@ void Board::CheckForNodeInteraction()
 
 Player* Board::GetPlayer(uint8_t playerOrder)
 {
-    if (_players.size() < playerOrder)
+    if (_players.size() < playerOrder || playerOrder == 0)
     {
         return nullptr;
     }
@@ -89,24 +90,29 @@ Player* Board::GetCurrentPlayer()
     return _players.at(_currentPlayerIndex);
 }
 
-std::string Board::GetPhaseDescription(uint8_t playerOrder)
+std::string Board::GetPhaseDescriptionForPlayer(uint8_t playerOrder)
 {
+    if (!_isGameInProgress)
+    {
+        Player* player = GetPlayer(playerOrder);
+        return player->IsVictor() ? "Victory" : "Defeat";
+    }
+
+    if (GetCurrentPlayer() != GetPlayer(playerOrder))
+    {
+        return "Wait";
+    }
+
     switch (GetPlayer(playerOrder)->GetPhase())
     {
     case PlayerPhase::Placing:
-        return "Place a piece";
+        return "Place";
     case PlayerPhase::Removing:
-        return "Remove opponent's piece";
+        return "Remove";
     case PlayerPhase::Moving:
-        return "Move a piece to an adjacent node";
+        return "Move";
     case PlayerPhase::Flying:
-        return "Move a piece to any free node";
-    case PlayerPhase::Victory:
-        return "Victory";
-    case PlayerPhase::Defeat:
-        return "Defeat";
-    case PlayerPhase::Waiting:
-        return "Wait";
+        return "Fly";
 
     default:
         return std::string();
@@ -121,17 +127,17 @@ Node* Board::CreateNode(float screenPosX, float screenPosY)
     return newNode;
 }
 
-Piece* Board::CreatePiece(Node* parentNode)
+bool Board::CreatePiece(Node* parentNode)
 {
     if (parentNode->GetHostedPiece() != nullptr)
     {
-        return nullptr;
+        return false;
     }
 
     Piece* newPiece = new Piece(parentNode->GetScreenRelatedPosition(), GetCurrentPlayer());
     parentNode->SetHostedPiece(newPiece);
 
-    return newPiece;
+    return true;
 }
 
 void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direction)
@@ -161,24 +167,12 @@ bool Board::CheckIfWinner(Player* player)
 {
     if (CheckForWinConditions())
     {
-        MarkPlayerAsWinner(player);
+        player->MarkAsVictor();
+        _isGameInProgress = false;
         return true;
     }
 
     return false;
-}
-
-void Board::MarkPlayerAsWinner(Player* winningPlayer)
-{
-    for (Player* player : _players)
-    {
-        if (winningPlayer != player)
-        {
-            player->SetPhase(PlayerPhase::Defeat);
-        }
-    }
-
-    winningPlayer->SetPhase(PlayerPhase::Victory);
 }
 
 bool Board::EvaluateNodeInteraction(Node* node)
@@ -219,7 +213,7 @@ bool Board::TryPiecePlacement(Node* node)
         return false;
     }
 
-    if (CreatePiece(node) != nullptr)
+    if (CreatePiece(node))
     {
         GetCurrentPlayer()->RemovePiece();
 

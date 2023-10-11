@@ -28,8 +28,6 @@ void Core::Run()
 		EndDrawing();
 		CheckForPhaseChange();
 		CheckForSystemInputs();
-
-		//std::cout << GetFPS() << std::endl;
 	}
 
 	Terminate();

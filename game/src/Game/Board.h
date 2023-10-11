@@ -5,7 +5,6 @@
 #include <string>
 
 class Player;
-class Piece;
 class Node;
 class Connection;
 enum class ConnectionDirection;
@@ -16,10 +15,7 @@ enum class PlayerPhase
 	Placing,
 	Removing,
 	Moving,
-	Flying,
-	Victory,
-	Defeat,
-	Waiting
+	Flying
 };
 
 class Board
@@ -35,21 +31,20 @@ public:
 	void CheckForNodeInteraction();
 	Player* GetPlayer(uint8_t playerOrder);
 	Player* GetCurrentPlayer();
-	std::string GetPhaseDescription(uint8_t playerOrder);
+	std::string GetPhaseDescriptionForPlayer(uint8_t playerOrder);
 
 protected:
 	virtual void SetupBoard() = 0;
 	virtual bool CheckForWinConditions() = 0;
 
 	Node* CreateNode(float screenPosX, float screenPosY);
-	Piece* CreatePiece(Node* parentNode);
+	bool CreatePiece(Node* parentNode);
 	void CreateConnection(Node* node1, Node* node2, ConnectionDirection direction);
 
 private:
 	void SetupPlayers();
 	void StartNextPlayer();
 	bool CheckIfWinner(Player* player);
-	void MarkPlayerAsWinner(Player* winningPlayer);
 	bool EvaluateNodeInteraction(Node* node);
 	bool ShouldCheckNodeInteractions();
 	bool TryPiecePlacement(Node* node);
@@ -69,8 +64,9 @@ protected:
 
 	uint8_t _currentPlayerIndex = 0;
 	uint8_t _playerCount = 0;
+	bool _isGameInProgress = false;
 
 private:
-	const uint8_t COLLISION_CHECK_MULTIPLIER = 3;
+	const uint8_t COLLISION_CHECK_MULTIPLIER = 5;
 	const uint8_t MILL_CONNECTION_CONDITION = 2;
 };

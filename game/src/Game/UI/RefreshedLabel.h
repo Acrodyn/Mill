@@ -10,8 +10,8 @@ class RefreshedLabel : public Label
 public:
 	RefreshedLabel() = delete;
 	RefreshedLabel(float positionX, float positionY);
-	RefreshedLabel(int fontSize, std::string text);
-	RefreshedLabel(float positionX, float positionY, int fontSize, std::string text);
+	RefreshedLabel(int fontSize, std::string text = " ");
+	RefreshedLabel(float positionX, float positionY, int fontSize, std::string text = " ");
 	~RefreshedLabel();
 
 	void Update() override;

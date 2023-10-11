@@ -76,7 +76,24 @@ void Player::BacktrackPhase()
 	_previousPhase = PlayerPhase::Unset;
 }
 
-PlayerPhase Player::GetPhase()
+void Player::MarkAsVictor()
+{
+	++_winCount;
+	_isVictor = true;
+}
+
+PlayerPhase Player::GetPhase() const
 {
 	return _currentPhase;
+}
+
+bool Player::IsVictor() const
+{
+	return _isVictor;
+}
+
+void Player::ResetPlayer()
+{
+	_isVictor = false;
+	_remainingPieces = _maxPieces;
 }
