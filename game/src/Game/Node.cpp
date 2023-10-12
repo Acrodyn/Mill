@@ -75,7 +75,7 @@ void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNode
 	{
 		if (pairedNode.first->_hostedPiece != nullptr && &(*pairedNode.first) != &(*filterNode))
 		{
-			if (_hostedPiece->GetOwningPlayerIndex() != pairedNode.first->_hostedPiece->GetOwningPlayerIndex())
+			if (_hostedPiece->GetOwningPlayerID() != pairedNode.first->_hostedPiece->GetOwningPlayerID())
 			{
 				continue;
 			}

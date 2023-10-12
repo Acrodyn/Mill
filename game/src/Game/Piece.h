@@ -15,10 +15,13 @@ public:
 	~Piece();
 
 	void Update() override;
-	const uint8_t GetOwningPlayerIndex() const;
+	const uint8_t GetOwningPlayerID() const;
+	bool IsRemovable() const;
+	void MarkAsRemovable(bool isRemovable = true);
 
 private:
 	const float PIECE_SIZE = 40.f;
 	CLITERAL(Color) _pieceColor;
-	const uint8_t _owningPlayerIndex;
+	const uint8_t _owningPlayerID;
+	bool _isRemovable = false;
 };

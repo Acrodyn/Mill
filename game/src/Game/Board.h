@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-class Player;
 class Node;
+class Player;
 class Connection;
 enum class ConnectionDirection;
 
@@ -44,6 +44,9 @@ protected:
 private:
 	void SetupPlayers();
 	void StartNextPlayer();
+	bool AnyPiecePlaced();
+	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
+	void UnmarkAllPieces();
 	bool CheckIfWinner(Player* player);
 	bool EvaluateNodeInteraction(Node* node);
 	bool ShouldCheckNodeInteractions();

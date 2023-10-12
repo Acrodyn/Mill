@@ -163,6 +163,64 @@ void Board::StartNextPlayer()
     _currentPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
 }
 
+bool Board::AnyPiecePlaced()
+{
+    for (Node* node : _nodes)
+    {
+        if (node->HasHostedPiece())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Board::MarkRemovablePieces(Player* remover, bool ignoreMilledNodes)
+{
+    if (!AnyPiecePlaced())
+    {
+        return;
+    }
+
+    std::vector<Node*> piecesToMark;
+
+    for (Node* node : _nodes)
+    {
+        if (!node->HasHostedPiece() || (node->GetHostedPiece()->GetOwningPlayerID() == remover->GetID()))
+        {
+            continue;
+        }
+
+        if (!ignoreMilledNodes || (ignoreMilledNodes && !CheckForMill(node)))
+        {
+            piecesToMark.push_back(node);
+        }
+    }
+
+    if (piecesToMark.size() == 0)
+    {
+        MarkRemovablePieces(remover, false);
+        return;
+    }
+
+    for (Node* node : piecesToMark)
+    {
+        node->GetHostedPiece()->MarkAsRemovable();
+    }
+}
+
+void Board::UnmarkAllPieces()
+{
+    for (Node* node : _nodes)
+    {
+        if (node->HasHostedPiece())
+        {
+            node->GetHostedPiece()->MarkAsRemovable(false);
+        }
+    }
+}
+
 bool Board::CheckIfWinner(Player* player)
 {
     if (CheckForWinConditions())
@@ -182,7 +240,7 @@ bool Board::EvaluateNodeInteraction(Node* node)
     switch (currentPhase)
     {
     case PlayerPhase::Moving:
-        return TryPiecePlacement(node);
+        return TryPieceMovement(node);
     case PlayerPhase::Placing:
         return TryPiecePlacement(node);
     case PlayerPhase::Removing:
@@ -222,6 +280,7 @@ bool Board::TryPiecePlacement(Node* node)
             if (!CheckIfWinner(currentPlayer))
             {
                 currentPlayer->SetPhase(PlayerPhase::Removing);
+                MarkRemovablePieces(currentPlayer);
             }
 
             return true;
@@ -235,12 +294,12 @@ bool Board::TryPiecePlacement(Node* node)
 
 bool Board::TryPieceRemoval(Node* node)
 {
-    if (node->HasHostedPiece())
+    if (node->HasHostedPiece() && node->GetHostedPiece()->IsRemovable())
     {
         node->RemoveHostedPiece();
         GetCurrentPlayer()->BacktrackPhase();
+        UnmarkAllPieces();
         StartNextPlayer();
-        GetCurrentPlayer()->AddPiece();
 
         return true;
     }

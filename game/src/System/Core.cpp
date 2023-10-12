@@ -98,8 +98,8 @@ bool Core::Init()
 {
 	try
 	{
-		SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_RESIZABLE);
-		InitWindow(defaultScreenWidth, defaultScreenHeight, "Mlin");
+		SetConfigFlags(FLAG_MSAA_4X_HINT);
+		InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Mlin");
 		SetTargetFPS(120);
 		//SetFullScreen();
 	}
@@ -209,7 +209,7 @@ void Core::ExitFullScreen()
 	if (IsWindowFullscreen())
 	{
 		ToggleFullscreen();
-		SetWindowSize(defaultScreenWidth, defaultScreenHeight);
+		SetWindowSize(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	}
 }
 

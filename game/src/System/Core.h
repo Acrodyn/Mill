@@ -39,6 +39,6 @@ private:
 	AppState _currentState = AppState::Unset;
 	GamePhase* _gamePhase = nullptr;
 
-	int defaultScreenWidth = 1280;
-	int defaultScreenHeight = 800;
+	static const int DEFAULT_SCREEN_WIDTH = 1280;
+	static const int DEFAULT_SCREEN_HEIGHT = 800;
 };
