@@ -49,6 +49,7 @@ private:
 	void EvaluatePlayerPhase(Player* player);
 	int GetPlayerPiecesOnBoard(Player* player);
 	bool AnyPiecePlaced();
+	bool IsThereRemoveablePieces(Player* remover);
 	bool CheckForMill(Node* node, bool markMill = false);
 	bool CheckIfWinner(Player* player);
 	bool ShouldCheckNodeInteractions();

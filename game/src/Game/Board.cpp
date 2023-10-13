@@ -207,9 +207,22 @@ bool Board::AnyPiecePlaced()
     return false;
 }
 
+bool Board::IsThereRemoveablePieces(Player* remover)
+{
+    for (Node* node : _nodes)
+    {
+        if (node->HasHostedPiece() && node->GetHostedPiece()->GetOwningPlayerID() != remover->GetID())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Board::MarkRemovablePieces(Player* remover, bool ignoreMilledNodes)
 {
-    if (!AnyPiecePlaced())
+    if (!IsThereRemoveablePieces(remover))
     {
         return;
     }
