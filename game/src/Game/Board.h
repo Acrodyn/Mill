@@ -46,11 +46,10 @@ protected:
 private:
 	void SetupPlayers();
 	void StartNextPlayer();
-	void StartNextPhase(Player* player);
-	void CheckForFlyingPhase(Player* player);
+	void EvaluatePlayerPhase(Player* player);
 	int GetPlayerPiecesOnBoard(Player* player);
 	bool AnyPiecePlaced();
-	bool CheckForMill(Node* node);
+	bool CheckForMill(Node* node, bool markMill = false);
 	bool CheckIfWinner(Player* player);
 	bool ShouldCheckNodeInteractions();
 	void TriggerMillEffect();

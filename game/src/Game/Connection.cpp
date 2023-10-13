@@ -26,3 +26,8 @@ void Connection::SetAsMarked(bool isMarked)
 {
 	_isMarked = isMarked;
 }
+
+bool Connection::ContainsNode(Node* node)
+{
+	return node == _node1 || node == _node2;
+}

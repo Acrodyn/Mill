@@ -158,27 +158,19 @@ void Board::StartNextPlayer()
     _currentPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
 }
 
-void Board::StartNextPhase(Player* player)
+void Board::EvaluatePlayerPhase(Player* player)
 {
     if (player->GetRemainingPieces() > 0)
     {
         player->SetPhase(PlayerPhase::Placing);
     }
-    else if (IS_FLYING_ALLOWED && GetPlayerPiecesOnBoard(player) <= FLYING_PIECE_THRESHOLD)
+    else if (IS_FLYING_ALLOWED && player->GetRemainingPieces() == 0 && GetPlayerPiecesOnBoard(player) <= FLYING_PIECE_THRESHOLD)
     {
         player->SetPhase(PlayerPhase::Flying);
     }
     else
     {
         player->SetPhase(PlayerPhase::Moving);
-    }
-}
-
-void Board::CheckForFlyingPhase(Player* player)
-{
-    if (IS_FLYING_ALLOWED && GetPlayerPiecesOnBoard(player) <= FLYING_PIECE_THRESHOLD)
-    {
-        player->SetPhase(PlayerPhase::Flying);
     }
 }
 
@@ -313,7 +305,7 @@ void Board::RehostSelectedPiece(Node* newHost)
     _selectedPiece->SetAsSelected(false);
     _selectedPiece = nullptr;
 
-    if (CheckForMill(newHost))
+    if (CheckForMill(newHost, true))
     {
         TriggerMillEffect();
         return;
@@ -386,13 +378,13 @@ void Board::TryPiecePlacement(Node* node)
     {
         currentPlayer->RemovePiece();
 
-        if (CheckForMill(node))
+        if (CheckForMill(node, true))
         {
             TriggerMillEffect();
             return;
         }
 
-        StartNextPhase(GetCurrentPlayer());
+        EvaluatePlayerPhase(GetCurrentPlayer());
         StartNextPlayer();
     }
 }
@@ -401,9 +393,9 @@ void Board::TryPieceRemoval(Node* node)
 {
     if (node->HasHostedPiece() && node->GetHostedPiece()->IsRemovable())
     {
-        CheckForFlyingPhase(GetPlayer(node->GetHostedPiece()->GetOwningPlayerID()));
+        EvaluatePlayerPhase(GetPlayer(node->GetHostedPiece()->GetOwningPlayerID()));
         node->RemoveHostedPiece();
-        StartNextPhase(GetCurrentPlayer());
+        EvaluatePlayerPhase(GetCurrentPlayer());
         UnmarkAllPieces();
         UnmarkAllConnections();
         StartNextPlayer();
@@ -431,9 +423,8 @@ void Board::TryPieceMovement(Node* node)
     }
 }
 
-bool Board::CheckForMill(Node* node)
+bool Board::CheckForMill(Node* node, bool markMill)
 {
-    bool isMill = false;
     ConnectionReport newReport;
     node->CalculateConnections(newReport);
 
@@ -441,16 +432,19 @@ bool Board::CheckForMill(Node* node)
     {
         if (connection.second.size() >= MILL_CONNECTION_CONDITION)
         {
-            isMill = true;
-            
-            for (Connection* connection : connection.second)
+            if (markMill)
             {
-                connection->SetAsMarked();
+                for (Connection* connection : connection.second)
+                {
+                    connection->SetAsMarked();
+                }
             }
+            
+            return true;
         }
     }
 
-    return isMill;
+    return false;
 }
 
 void Board::PairNodes(Node* node1, Node* node2, Connection* connection)

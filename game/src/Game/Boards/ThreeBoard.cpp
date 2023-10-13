@@ -2,7 +2,7 @@
 #include "System/Core.h"
 #include "Game/Connection.h"
 
-ThreeBoard::ThreeBoard() : Board(3, true)
+ThreeBoard::ThreeBoard() : Board(3, false)
 {
 
 }

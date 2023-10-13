@@ -2,7 +2,7 @@
 #include "System/Core.h"
 #include "Game/Connection.h"
 
-NineBoard::NineBoard() : Board(3, true, 3)
+NineBoard::NineBoard() : Board(9, true, 3)
 {
 
 }
@@ -63,7 +63,6 @@ void NineBoard::SetupBoard()
 	CreateConnection(secondLayerRight, fifthLayerCenter, seventhLayerRight, ConnectionDirection::Vertical);
 	CreateConnection(sixthLayerCenter, seventhLayerCenter, eightLayerCenter, ConnectionDirection::Vertical);
 	CreateConnection(firstLayerRight, fifthLayerRight, eightLayerRight, ConnectionDirection::Vertical);
-
 }
 
 bool NineBoard::CheckForWinConditions()
