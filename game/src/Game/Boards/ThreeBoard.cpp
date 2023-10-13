@@ -47,5 +47,5 @@ void ThreeBoard::SetupBoard()
 
 bool ThreeBoard::CheckForWinConditions()
 {
-	return false;
+	return true;
 }

@@ -48,7 +48,6 @@ private:
 	int GetPlayerPiecesOnBoard(Player* player);
 	bool AnyPiecePlaced();
 	bool CheckForMill(Node* node);
-	bool CheckAdjacentNodesForConnections(Node* node);
 	bool CheckIfWinner(Player* player);
 	bool ShouldCheckNodeInteractions();
 	void TriggerMillEffect();

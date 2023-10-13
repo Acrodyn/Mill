@@ -278,7 +278,15 @@ void Board::SetSelectedPiece(Node* hostNode)
         _selectedPiece->SetAsSelected(false);
     }
 
-    hostNode->MarkAdjacentNodes();
+    if (IS_FLYING_ALLOWED && GetCurrentPlayer()->GetPhase() == PlayerPhase::Flying)
+    {
+        MarkAllFreeNodes();
+    }
+    else
+    {
+        hostNode->MarkAdjacentNodes();
+    }
+
     _selectedPiece = hostNode->GetHostedPiece();
     _selectedPiece->SetAsSelected();
 }
@@ -338,17 +346,13 @@ void Board::EvaluateNodeInteraction(Node* node)
 
 bool Board::ShouldCheckNodeInteractions()
 {
-    return GetCurrentPlayer()->GetPhase() != PlayerPhase::Unset || (_selectedPiece != nullptr && _selectedPiece->IsMoving());
+    return (_isGameInProgress && GetCurrentPlayer()->GetPhase() != PlayerPhase::Unset) || (_selectedPiece != nullptr && _selectedPiece->IsMoving());
 }
 
 void Board::TriggerMillEffect()
 {
     Player* currentPlayer = GetCurrentPlayer();
-    if (CheckIfWinner(currentPlayer))
-    {
-        // trigger victory
-    }
-    else
+    if (!CheckIfWinner(currentPlayer))
     {
         currentPlayer->SetPhase(PlayerPhase::Removing);
         MarkRemovablePieces(currentPlayer);
@@ -419,8 +423,8 @@ void Board::TryPieceFlight(Node* node)
 
 bool Board::CheckForMill(Node* node)
 {
-    ConnectionReport newReport;
     bool isMill = false;
+    ConnectionReport newReport;
     node->CalculateConnections(newReport);
 
     for (auto connection : newReport.Connections)
@@ -437,11 +441,6 @@ bool Board::CheckForMill(Node* node)
     }
 
     return isMill;
-}
-
-bool Board::CheckAdjacentNodesForConnections(Node* node)
-{
-    return false;
 }
 
 void Board::PairNodes(Node* node1, Node* node2, Connection* connection)
