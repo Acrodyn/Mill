@@ -15,11 +15,6 @@ enum class ConnectionDirection
 	DiagonalRight // Top-bottom
 };
 
-struct ConnectionReport
-{
-	std::unordered_map<ConnectionDirection, int> Connections;
-};
-
 class Connection
 {
 public:
@@ -29,9 +24,17 @@ public:
 
 	void Update();
 	ConnectionDirection GetDirection();
+	void SetAsMarked(bool isMarked = true);
 
 private:
 	const Node* const _node1 = nullptr;
 	const Node* const _node2 = nullptr;
 	const ConnectionDirection _direction;
+
+	bool _isMarked = false;
+};
+
+struct ConnectionReport
+{
+	std::unordered_map<ConnectionDirection, std::vector<Connection*>> Connections;
 };

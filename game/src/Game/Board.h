@@ -54,7 +54,9 @@ private:
 	void TriggerMillEffect();
 	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
 	void UnmarkAllPieces();
+	void MarkAllFreeNodes();
 	void UnmarkAllNodes();
+	void UnmarkAllConnections();
 	void SetSelectedPiece(Node* hostNode);
 	void RehostSelectedPiece(Node* newHost);
 	void EvaluateNodeInteraction(Node* node);
@@ -78,6 +80,6 @@ private:
 
 	uint8_t _currentPlayerIndex = 0;
 	uint8_t _playerCount = 0;
-	bool _isGameInProgress = false;
 	Piece* _selectedPiece = nullptr;
+	bool _isGameInProgress = false;
 };

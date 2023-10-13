@@ -123,12 +123,7 @@ void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNode
 				continue;
 			}
 
-			if (report.Connections.find(nodeDirection) == report.Connections.end())
-			{
-				report.Connections[nodeDirection] = 0;
-			}
-
-			++report.Connections[nodeDirection];
+			report.Connections[nodeDirection].push_back(pairedNode.second);
 		}
 
 		if (checkAdjacentNodes)

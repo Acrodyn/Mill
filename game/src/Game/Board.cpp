@@ -244,11 +244,30 @@ void Board::UnmarkAllPieces()
     }
 }
 
+void Board::MarkAllFreeNodes()
+{
+    for (Node* node : _nodes)
+    {
+        if (!node->HasHostedPiece())
+        {
+            node->MarkNode();
+        }
+    }
+}
+
 void Board::UnmarkAllNodes()
 {
     for (Node* node : _nodes)
     {
         node->UnmarkNode();
+    }
+}
+
+void Board::UnmarkAllConnections()
+{
+    for (Connection* connection : _connections)
+    {
+        connection->SetAsMarked(false);
     }
 }
 
@@ -367,6 +386,7 @@ void Board::TryPieceRemoval(Node* node)
         node->RemoveHostedPiece();
         StartNextPhase(GetCurrentPlayer());
         UnmarkAllPieces();
+        UnmarkAllConnections();
         StartNextPlayer();
     }
 }
@@ -400,17 +420,23 @@ void Board::TryPieceFlight(Node* node)
 bool Board::CheckForMill(Node* node)
 {
     ConnectionReport newReport;
+    bool isMill = false;
     node->CalculateConnections(newReport);
 
     for (auto connection : newReport.Connections)
     {
-        if (connection.second >= MILL_CONNECTION_CONDITION)
+        if (connection.second.size() >= MILL_CONNECTION_CONDITION)
         {
-            return true;
+            isMill = true;
+            
+            for (Connection* connection : connection.second)
+            {
+                connection->SetAsMarked();
+            }
         }
     }
 
-    return false;
+    return isMill;
 }
 
 bool Board::CheckAdjacentNodesForConnections(Node* node)

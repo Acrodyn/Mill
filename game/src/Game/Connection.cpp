@@ -14,10 +14,15 @@ Connection::~Connection()
 
 void Connection::Update()
 {
-	DrawLine(_node1->GetPositionX(), _node1->GetPositionY(), _node2->GetPositionX(), _node2->GetPositionY(), RAYWHITE);
+	DrawLine(_node1->GetPositionX(), _node1->GetPositionY(), _node2->GetPositionX(), _node2->GetPositionY(), _isMarked ? YELLOW : RAYWHITE);
 }
 
 ConnectionDirection Connection::GetDirection()
 {
 	return _direction;
+}
+
+void Connection::SetAsMarked(bool isMarked)
+{
+	_isMarked = isMarked;
 }
