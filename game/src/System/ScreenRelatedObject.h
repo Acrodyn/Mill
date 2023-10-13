@@ -17,6 +17,7 @@ public:
 	int GetPositionY() const;
 	Vector2 GetPosition() const;
 	Vector2 GetScreenRelatedPosition() const;
+	void SetScreenRelatedPosition(Vector2 newPosition);
 	void SetAnchorObject(ScreenRelatedObject* anchorObject);
 	void SetOffset(Vector2 offset);
 

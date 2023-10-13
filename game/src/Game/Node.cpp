@@ -15,13 +15,22 @@ Node::~Node()
 
 void Node::Update()
 {
+	CheckForClick();
+
 	if (_hostedPiece != nullptr)
 	{
-		_hostedPiece->Update();
+		if (_hostedPiece->IsMoving())
+		{
+			_hostedPiece = nullptr;
+		}
+		else
+		{
+			_hostedPiece->Update();
+		}
 	}
 	else
 	{
-		DrawCircle(GetPositionX(), GetPositionY(), NODE_SIZE, RAYWHITE);
+		DrawCircle(GetPositionX(), GetPositionY(), NODE_SIZE, _isMarked ? GREEN : RAYWHITE);
 	}
 }
 
@@ -64,6 +73,34 @@ void Node::CalculateConnections(ConnectionReport& report)
 	CalculateConnections(report, true, nullptr, ConnectionDirection::Unset);
 }
 
+void Node::MarkNode()
+{
+	if (_hostedPiece != nullptr)
+	{
+		return;
+	}
+
+	_isMarked = true;
+}
+
+void Node::MarkAdjacentNodes()
+{
+	for (auto pairedNode : _pairedNodes)
+	{
+		pairedNode.first->MarkNode();
+	}
+}
+
+void Node::UnmarkNode()
+{
+	_isMarked = false;
+}
+
+bool Node::IsMarked()
+{
+	return _isMarked;
+}
+
 void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNodes, Node* filterNode, ConnectionDirection relevantDirection)
 {
 	if (_hostedPiece == nullptr || &(*this) == &(*filterNode))
@@ -99,4 +136,9 @@ void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNode
 			pairedNode.first->CalculateConnections(report, false, this, pairedNode.second->GetDirection());
 		}
 	}
+}
+
+bool Node::IsMouseOnObject()
+{
+	return CheckCollisionPointCircle(GetMousePosition(), GetPosition(), GetSize() * COLLISION_CHECK_MULTIPLIER);
 }

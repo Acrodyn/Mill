@@ -34,32 +34,6 @@ bool Button::IsMouseOnObject()
 	return CheckCollisionPointRec(GetMousePosition(), Rectangle({(float)GetPositionX(), (float)GetPositionY(), _size.x, _size.y}));
 }
 
-void Button::OnClickPressed()
-{
-	if (_onClick != nullptr)
-	{
-		_onClick();
-	}
-}
-
-void Button::OnClickReleased()
-{
-	if (_OnRelease !=  nullptr)
-	{
-		_OnRelease();
-	}
-}
-
-void Button::RegisterOnClick(Function onClick)
-{
-	_onClick = onClick;
-}
-
-void Button::RegisterOnRelease(Function onRelease)
-{
-	_OnRelease = onRelease;
-}
-
 void Button::SetColor(CLITERAL(Color) color)
 {
 	_buttonColor = color;
@@ -84,22 +58,4 @@ void Button::AttachLabel(Label* label)
 Label* Button::GetLabel()
 {
 	return _attachedLabel;
-}
-
-void Button::CheckForClick()
-{
-	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && IsMouseOnObject())
-	{
-		_isPressed = true;
-		OnClickPressed();
-	}
-	else if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-	{
-		if (IsMouseOnObject())
-		{
-			OnClickReleased();
-		}
-
-		_isPressed = false;
-	}
 }

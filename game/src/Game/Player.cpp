@@ -2,7 +2,7 @@
 #include "Board.h"
 #include "System/Core.h"
 
-Player::Player(uint8_t id) : _id(id), _currentPhase(PlayerPhase::Unset),  _previousPhase(PlayerPhase::Unset)
+Player::Player(uint8_t id) : _id(id), _currentPhase(PlayerPhase::Unset)
 {
 
 }
@@ -61,19 +61,7 @@ CLITERAL(Color) Player::GetChosenColor() const
 
 void Player::SetPhase(PlayerPhase phase)
 {
-	_previousPhase = _currentPhase;
 	_currentPhase = phase;
-}
-
-void Player::BacktrackPhase()
-{
-	if (_previousPhase == PlayerPhase::Unset)
-	{
-		return;
-	}
-
-	_currentPhase = _previousPhase;
-	_previousPhase = PlayerPhase::Unset;
 }
 
 void Player::MarkAsVictor()

@@ -1,12 +1,12 @@
 #pragma once
 
 #include "raylib.h"
-#include "IClickable.h"
+#include "ClickableObject.h"
 #include "System/ScreenRelatedObject.h"
 
 class Label;
 
-class Button : public ScreenRelatedObject, public IClickable
+class Button : public ScreenRelatedObject, public ClickableObject
 {
 public:
 	Button() = delete;
@@ -15,10 +15,6 @@ public:
 
 	void Update() override;
 	bool IsMouseOnObject() override;
-	void OnClickPressed() override;
-	void OnClickReleased() override;
-	void RegisterOnClick(Function onClick) override;
-	void RegisterOnRelease(Function onRelease) override;
 
 	void SetColor(CLITERAL(Color) color);
 	void SetPressedColor(CLITERAL(Color) color);
@@ -26,15 +22,8 @@ public:
 	Label* GetLabel();
 
 private:
-	void CheckForClick();
-
-private:
 	Vector2 _size;
 	CLITERAL(Color) _buttonColor;
 	CLITERAL(Color) _pressedColor;
 	Label* _attachedLabel = nullptr;
-	bool _isPressed = false;
-
-	Function _onClick = nullptr;
-	Function _OnRelease = nullptr;
 };

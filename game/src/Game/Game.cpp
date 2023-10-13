@@ -45,8 +45,6 @@ void Game::Loop()
 	{
 		screenObject->Update();
 	}
-
-	CheckForInput();
 }
 
 void Game::InitBoard()
@@ -54,7 +52,7 @@ void Game::InitBoard()
 	_board = new ThreeBoard();
 	_board->Init();
 
-	_board->GetPlayer(1)->SetColor(RED);
+	_board->GetPlayer(1)->SetColor(DARKGRAY);
 	_board->GetPlayer(2)->SetColor(WHITE);
 }
 
@@ -89,14 +87,6 @@ void Game::InitUI()
 	secondActionLabel->SetColor(GREEN);
 	secondActionLabel->RegisterRefreshFunction([&]() { return _board->GetPhaseDescriptionForPlayer(2); });
 	_screenObjects.push_back(secondActionLabel);
-}
-
-void Game::CheckForInput()
-{
-	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-	{
-		_board->CheckForNodeInteraction();
-	}
 }
 
 void Game::Reset()

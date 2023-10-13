@@ -1,7 +1,7 @@
 #include "NineBoard.h"
 #include "System/Core.h"
 
-NineBoard::NineBoard() : Board(9)
+NineBoard::NineBoard() : Board(9, true)
 {
 
 }

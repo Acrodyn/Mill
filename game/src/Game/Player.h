@@ -20,7 +20,6 @@ public:
 	void SetColor(CLITERAL(Color) color);
 	CLITERAL(Color) GetChosenColor() const;
 	void SetPhase(PlayerPhase phase);
-	void BacktrackPhase();
 	void MarkAsVictor();
 	PlayerPhase GetPhase() const;
 	bool IsVictor() const;
@@ -33,6 +32,5 @@ private:
 	uint16_t _winCount = 0;
 	CLITERAL(Color) _chosenColor = WHITE;
 	PlayerPhase _currentPhase;
-	PlayerPhase _previousPhase;
 	bool _isVictor = false;
 };

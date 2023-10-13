@@ -66,6 +66,11 @@ Vector2 ScreenRelatedObject::GetScreenRelatedPosition() const
 	return _screenRelatedPosition;
 }
 
+void ScreenRelatedObject::SetScreenRelatedPosition(Vector2 newPosition)
+{
+	_screenRelatedPosition = newPosition;
+}
+
 void ScreenRelatedObject::SetAnchorObject(ScreenRelatedObject* anchorObject)
 {
 	_anchorObject = anchorObject;

@@ -5,6 +5,7 @@
 #include <string>
 
 class Node;
+class Piece;
 class Player;
 class Connection;
 enum class ConnectionDirection;
@@ -22,13 +23,12 @@ class Board
 {
 public:
 	Board();
-	Board(uint8_t piecesPerPlayer);
+	Board(uint8_t piecesPerPlayer, bool isFlyingAllowed, uint8_t flyingPieceThreshold = 0);
 	virtual ~Board();
 
 	void Init(uint8_t playerCount = 2);
 	void Update();
 
-	void CheckForNodeInteraction();
 	Player* GetPlayer(uint8_t playerOrder);
 	Player* GetCurrentPlayer();
 	std::string GetPhaseDescriptionForPlayer(uint8_t playerOrder);
@@ -44,22 +44,33 @@ protected:
 private:
 	void SetupPlayers();
 	void StartNextPlayer();
+	void StartNextPhase(Player* player);
+	int GetPlayerPiecesOnBoard(Player* player);
 	bool AnyPiecePlaced();
-	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
-	void UnmarkAllPieces();
-	bool CheckIfWinner(Player* player);
-	bool EvaluateNodeInteraction(Node* node);
-	bool ShouldCheckNodeInteractions();
-	bool TryPiecePlacement(Node* node);
-	bool TryPieceRemoval(Node* node);
-	bool TryPieceMovement(Node* node);
-	bool TryPieceFlight(Node* node);
 	bool CheckForMill(Node* node);
 	bool CheckAdjacentNodesForConnections(Node* node);
+	bool CheckIfWinner(Player* player);
+	bool ShouldCheckNodeInteractions();
+	void TriggerMillEffect();
+	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
+	void UnmarkAllPieces();
+	void UnmarkAllNodes();
+	void SetSelectedPiece(Node* hostNode);
+	void RehostSelectedPiece(Node* newHost);
+	void EvaluateNodeInteraction(Node* node);
 	void PairNodes(Node* node1, Node* node2, Connection* connection);
+	void TryPiecePlacement(Node* node);
+	void TryPieceRemoval(Node* node);
+	void TryPieceMovement(Node* node);
+	void TryPieceFlight(Node* node);
 
 protected:
 	const uint8_t PIECES_PER_PLAYER = 0;
+	const bool IS_FLYING_ALLOWED = false;
+	const uint8_t FLYING_PIECE_THRESHOLD = 3;
+
+private:
+	const uint8_t MILL_CONNECTION_CONDITION = 2;
 
 	std::vector<Player*> _players;
 	std::vector<Node*> _nodes;
@@ -68,8 +79,5 @@ protected:
 	uint8_t _currentPlayerIndex = 0;
 	uint8_t _playerCount = 0;
 	bool _isGameInProgress = false;
-
-private:
-	const uint8_t COLLISION_CHECK_MULTIPLIER = 5;
-	const uint8_t MILL_CONNECTION_CONDITION = 2;
+	Piece* _selectedPiece = nullptr;
 };

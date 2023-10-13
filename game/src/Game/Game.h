@@ -22,7 +22,6 @@ protected:
 private:
 	void InitBoard();
 	void InitUI();
-	void CheckForInput();
 	void Reset();
 	void ReturnToMenu();
 
