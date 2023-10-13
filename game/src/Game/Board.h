@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 class Node;
 class Piece;
@@ -29,7 +30,7 @@ public:
 	void Init(uint8_t playerCount = 2);
 	void Update();
 
-	Player* GetPlayer(uint8_t playerOrder);
+	Player* GetPlayer(uint8_t playerID);
 	Player* GetCurrentPlayer();
 	std::string GetPhaseDescriptionForPlayer(uint8_t playerOrder);
 
@@ -40,11 +41,13 @@ protected:
 	Node* CreateNode(float screenPosX, float screenPosY);
 	bool CreatePiece(Node* parentNode);
 	void CreateConnection(Node* node1, Node* node2, ConnectionDirection direction);
+	void CreateConnection(Node* node1, Node* node2, Node* node3, ConnectionDirection direction);
 
 private:
 	void SetupPlayers();
 	void StartNextPlayer();
 	void StartNextPhase(Player* player);
+	void CheckForFlyingPhase(Player* player);
 	int GetPlayerPiecesOnBoard(Player* player);
 	bool AnyPiecePlaced();
 	bool CheckForMill(Node* node);
@@ -63,7 +66,6 @@ private:
 	void TryPiecePlacement(Node* node);
 	void TryPieceRemoval(Node* node);
 	void TryPieceMovement(Node* node);
-	void TryPieceFlight(Node* node);
 
 protected:
 	const uint8_t PIECES_PER_PLAYER = 0;
@@ -73,7 +75,7 @@ protected:
 private:
 	const uint8_t MILL_CONNECTION_CONDITION = 2;
 
-	std::vector<Player*> _players;
+	std::unordered_map<uint8_t, Player*> _players;
 	std::vector<Node*> _nodes;
 	std::vector<Connection*> _connections;
 

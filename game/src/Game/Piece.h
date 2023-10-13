@@ -31,7 +31,7 @@ private:
 	CLITERAL(Color) GetOutlineColor();
 
 private:
-	const float PIECE_SIZE = 40.f;
+	const float PIECE_SIZE = 30.f;
 
 	CLITERAL(Color) _pieceColor;
 	const uint8_t _owningPlayerID;

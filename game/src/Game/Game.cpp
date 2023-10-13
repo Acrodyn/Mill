@@ -2,6 +2,7 @@
 #include "System/Core.h"
 #include "Board.h"
 #include "Boards/ThreeBoard.h"
+#include "Boards/NineBoard.h"
 #include "UI/Button.h"
 #include "UI/Label.h"
 #include "UI/RefreshedLabel.h"
@@ -49,7 +50,7 @@ void Game::Loop()
 
 void Game::InitBoard()
 {
-	_board = new ThreeBoard();
+	_board = new NineBoard();
 	_board->Init();
 
 	_board->GetPlayer(1)->SetColor(DARKGRAY);
@@ -68,22 +69,22 @@ void Game::InitUI()
 	menuButton->RegisterOnRelease([&]() { ReturnToMenu(); });
 	_screenObjects.push_back(menuButton);
 
-	RefreshedLabel* firstRefreshLabel = new RefreshedLabel(0.15f, 0.5f, 50);
+	RefreshedLabel* firstRefreshLabel = new RefreshedLabel(0.1f, 0.5f, 50);
 	firstRefreshLabel->SetColor(RED);
 	firstRefreshLabel->RegisterRefreshFunction([&]() { return std::to_string(_board->GetPlayer(1)->GetRemainingPieces()); });
 	_screenObjects.push_back(firstRefreshLabel);
 
-	RefreshedLabel* secondRefreshLabel = new RefreshedLabel(0.85f, 0.5f, 50);
+	RefreshedLabel* secondRefreshLabel = new RefreshedLabel(0.9f, 0.5f, 50);
 	secondRefreshLabel->SetColor(RED);
 	secondRefreshLabel->RegisterRefreshFunction([&]() { return std::to_string(_board->GetPlayer(2)->GetRemainingPieces()); });
 	_screenObjects.push_back(secondRefreshLabel);
 
-	RefreshedLabel* firstActionLabel = new RefreshedLabel(0.15f, 0.70f, 25);
+	RefreshedLabel* firstActionLabel = new RefreshedLabel(0.1f, 0.70f, 25);
 	firstActionLabel->SetColor(GREEN);
 	firstActionLabel->RegisterRefreshFunction([&]() { return _board->GetPhaseDescriptionForPlayer(1); });
 	_screenObjects.push_back(firstActionLabel);
 
-	RefreshedLabel* secondActionLabel = new RefreshedLabel(0.85f, 0.7f, 25);
+	RefreshedLabel* secondActionLabel = new RefreshedLabel(0.9f, 0.7f, 25);
 	secondActionLabel->SetColor(GREEN);
 	secondActionLabel->RegisterRefreshFunction([&]() { return _board->GetPhaseDescriptionForPlayer(2); });
 	_screenObjects.push_back(secondActionLabel);

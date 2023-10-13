@@ -29,10 +29,12 @@ Board::~Board()
         delete node;
     }
 
-    for (Player* player : _players)
+    for (auto player : _players)
     {
-        delete player;
+        delete player.second;
     }
+
+    _players.clear();
 }
 
 void Board::Init(uint8_t playerCount)
@@ -61,19 +63,19 @@ void Board::Update()
     }
 }
 
-Player* Board::GetPlayer(uint8_t playerOrder)
+Player* Board::GetPlayer(uint8_t playerID)
 {
-    if (_players.size() < playerOrder || playerOrder == 0)
+    if (_players.find(playerID) == _players.end())
     {
         return nullptr;
     }
 
-    return _players.at(playerOrder - 1);
+    return _players[playerID];
 }
 
 Player* Board::GetCurrentPlayer()
 {
-    return _players.at(_currentPlayerIndex);
+    return _players.at(_currentPlayerIndex + 1);
 }
 
 std::string Board::GetPhaseDescriptionForPlayer(uint8_t playerOrder)
@@ -134,14 +136,20 @@ void Board::CreateConnection(Node* node1, Node* node2, ConnectionDirection direc
     PairNodes(node1, node2, newConnection);
 }
 
+void Board::CreateConnection(Node* node1, Node* node2, Node* node3, ConnectionDirection direction)
+{
+    CreateConnection(node1, node2, direction);
+    CreateConnection(node2, node3, direction);
+}
+
 void Board::SetupPlayers()
 {
-    for (int i = 0; i < _playerCount; ++i)
+    for (uint8_t i = 1; i <= _playerCount; ++i)
     {
         Player* newPlayer = new Player(i);
         newPlayer->SetPieceCount(PIECES_PER_PLAYER);
         newPlayer->SetPhase(PlayerPhase::Placing);
-        _players.push_back(newPlayer);
+        _players[i] = newPlayer;
     }
 }
 
@@ -156,13 +164,21 @@ void Board::StartNextPhase(Player* player)
     {
         player->SetPhase(PlayerPhase::Placing);
     }
-    else if (IS_FLYING_ALLOWED && GetPlayerPiecesOnBoard(player) < FLYING_PIECE_THRESHOLD)
+    else if (IS_FLYING_ALLOWED && GetPlayerPiecesOnBoard(player) <= FLYING_PIECE_THRESHOLD)
     {
         player->SetPhase(PlayerPhase::Flying);
     }
     else
     {
         player->SetPhase(PlayerPhase::Moving);
+    }
+}
+
+void Board::CheckForFlyingPhase(Player* player)
+{
+    if (IS_FLYING_ALLOWED && GetPlayerPiecesOnBoard(player) <= FLYING_PIECE_THRESHOLD)
+    {
+        player->SetPhase(PlayerPhase::Flying);
     }
 }
 
@@ -330,6 +346,7 @@ void Board::EvaluateNodeInteraction(Node* node)
     switch (currentPhase)
     {
     case PlayerPhase::Moving:
+    case PlayerPhase::Flying:
         TryPieceMovement(node);
         break;
     case PlayerPhase::Placing:
@@ -337,9 +354,6 @@ void Board::EvaluateNodeInteraction(Node* node)
         break;
     case PlayerPhase::Removing:
         TryPieceRemoval(node);
-        break;
-    case PlayerPhase::Flying:
-        TryPieceFlight(node);
         break;
     }
 }
@@ -387,6 +401,7 @@ void Board::TryPieceRemoval(Node* node)
 {
     if (node->HasHostedPiece() && node->GetHostedPiece()->IsRemovable())
     {
+        CheckForFlyingPhase(GetPlayer(node->GetHostedPiece()->GetOwningPlayerID()));
         node->RemoveHostedPiece();
         StartNextPhase(GetCurrentPlayer());
         UnmarkAllPieces();
@@ -414,11 +429,6 @@ void Board::TryPieceMovement(Node* node)
             SetSelectedPiece(node);
         }
     }
-}
-
-void Board::TryPieceFlight(Node* node)
-{
-    
 }
 
 bool Board::CheckForMill(Node* node)
