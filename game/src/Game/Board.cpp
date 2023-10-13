@@ -393,8 +393,9 @@ void Board::TryPieceRemoval(Node* node)
 {
     if (node->HasHostedPiece() && node->GetHostedPiece()->IsRemovable())
     {
-        EvaluatePlayerPhase(GetPlayer(node->GetHostedPiece()->GetOwningPlayerID()));
+        Player* losingPlayer = GetPlayer(node->GetHostedPiece()->GetOwningPlayerID());
         node->RemoveHostedPiece();
+        EvaluatePlayerPhase(losingPlayer);
         EvaluatePlayerPhase(GetCurrentPlayer());
         UnmarkAllPieces();
         UnmarkAllConnections();
