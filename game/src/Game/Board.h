@@ -55,13 +55,6 @@ private:
 	void SetupPlayers();
 	void StartNextPlayer();
 	void EvaluatePlayerPhase(Player* player);
-	int GetPlayerPiecesOnBoard(Player* player);
-	bool AnyPiecePlaced();
-	bool IsThereRemoveablePieces(Player* remover);
-	bool CheckForMill(Node* node, bool markMill = false);
-	bool CheckIfWinner(Player* player, WinCondition winCondition);
-	bool ShouldCheckNodeInteractions();
-	bool CheckIfPossibleMoves(Player* player);
 	void TriggerMillEffect();
 	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
 	void UnmarkAllPieces();
@@ -75,6 +68,16 @@ private:
 	void TryPiecePlacement(Node* node);
 	void TryPieceRemoval(Node* node);
 	void TryPieceMovement(Node* node);
+	int GetPlayerPiecesOnBoard(Player* player);
+	bool AnyPiecePlaced();
+	bool IsThereRemoveablePieces(Player* remover);
+	bool CheckForMill(Node* node, bool markMill = false);
+	bool CheckIfWinner(Player* player, WinCondition winCondition);
+	bool ShouldCheckNodeInteractions();
+	bool CheckIfPossibleMoves(Player* player);
+	bool AnyFreeNode();
+	bool DoesPlayerHaveMovementOptions(Player* player);
+	Player* GetNextPlayer();
 
 private:
 	const uint8_t PIECES_PER_PLAYER = 0;

@@ -44,7 +44,7 @@ bool Player::HasRemainingPieces() const
 	return _remainingPieces > 0;
 }
 
-uint8_t Player::GetRemainingPieces() const
+const uint8_t Player::GetRemainingPieces() const
 {
 	return _remainingPieces;
 }
@@ -54,7 +54,7 @@ void Player::SetColor(const CLITERAL(Color)& color)
 	_chosenColor = color;
 }
 
-CLITERAL(Color) Player::GetChosenColor() const
+const CLITERAL(Color) Player::GetChosenColor() const
 {
 	return _chosenColor;
 }

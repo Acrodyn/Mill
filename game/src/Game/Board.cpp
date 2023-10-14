@@ -155,7 +155,18 @@ void Board::SetupPlayers()
 
 void Board::StartNextPlayer()
 {
-    _currentPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
+    int nextPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
+    Player* nextPlayer = GetPlayer(nextPlayerIndex + 1);
+
+    if (!CheckIfPossibleMoves(nextPlayer))
+    {
+        if (CheckIfWinner(GetCurrentPlayer(), WinCondition::InsufficientMoves))
+        {
+            return;
+        }
+    }
+
+    _currentPlayerIndex = nextPlayerIndex;
 }
 
 void Board::EvaluatePlayerPhase(Player* player)
@@ -365,7 +376,51 @@ bool Board::ShouldCheckNodeInteractions()
 
 bool Board::CheckIfPossibleMoves(Player* player)
 {
+    switch (player->GetPhase())
+    {
+    case PlayerPhase::Removing:
+        return IsThereRemoveablePieces(player);
+    case PlayerPhase::Placing:
+    case PlayerPhase::Flying:
+        return AnyFreeNode();
+    case PlayerPhase::Moving:
+        return DoesPlayerHaveMovementOptions(player);
+    default:
+        return false;
+    }
+}
+
+bool Board::AnyFreeNode()
+{
+    for (Node* node : _nodes)
+    {
+        if (!node->HasHostedPiece())
+        {
+            return true;
+        }
+    }
+
     return false;
+}
+
+bool Board::DoesPlayerHaveMovementOptions(Player* player)
+{
+    for (Node* node : _nodes)
+    {
+        if (node->HasHostedPiece() 
+            && node->GetHostedPiece()->GetOwningPlayerID() == player->GetID() 
+            && node->HasFreeAdjacentNodes())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+Player* Board::GetNextPlayer()
+{
+    return GetPlayer(((_currentPlayerIndex + 1) % _playerCount) + 1);
 }
 
 void Board::TriggerMillEffect()

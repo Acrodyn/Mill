@@ -101,6 +101,19 @@ bool Node::IsMarked()
 	return _isMarked;
 }
 
+bool Node::HasFreeAdjacentNodes()
+{
+	for (auto pairedNode : _pairedNodes)
+	{
+		if (!pairedNode.first->HasHostedPiece())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNodes, Node* filterNode, ConnectionDirection relevantDirection)
 {
 	if (_hostedPiece == nullptr || &(*this) == &(*filterNode))

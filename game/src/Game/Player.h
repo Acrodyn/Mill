@@ -11,19 +11,19 @@ public:
 	Player(uint8_t id);
 	~Player();
 
-	const uint8_t GetID() const;
 	void SetPieceCount(uint8_t pieceCount);
 	void AddPiece();
 	void RemovePiece();
-	uint8_t GetRemainingPieces() const;
-	bool HasRemainingPieces() const;
 	void SetColor(const CLITERAL(Color)& color);
-	CLITERAL(Color) GetChosenColor() const;
 	void SetPhase(PlayerPhase phase);
 	void MarkAsVictor();
-	PlayerPhase GetPhase() const;
-	bool IsVictor() const;
 	void ResetPlayer();
+	const uint8_t GetID() const;
+	const uint8_t GetRemainingPieces() const;
+	bool IsVictor() const;
+	bool HasRemainingPieces() const;
+	PlayerPhase GetPhase() const;
+	const CLITERAL(Color) GetChosenColor() const;
 
 private:
 	const uint8_t _id = 0;

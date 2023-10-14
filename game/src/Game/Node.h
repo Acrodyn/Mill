@@ -20,16 +20,17 @@ public:
 	void Update() override;
 
 	void PairWith(Node* node, Connection* connection);
-	float GetSize();
 	void SetHostedPiece(Piece* piece);
 	void RemoveHostedPiece();
-	bool HasHostedPiece();
-	Piece* GetHostedPiece();
 	void CalculateConnections(ConnectionReport& report);
 	void MarkNode();
 	void MarkAdjacentNodes();
 	void UnmarkNode();
+	float GetSize();
+	bool HasHostedPiece();
 	bool IsMarked();
+	bool HasFreeAdjacentNodes();
+	Piece* GetHostedPiece();
 
 private:
 	void CalculateConnections(ConnectionReport& report, bool checkAdjacentNodes, Node* filterNode, ConnectionDirection relevantDirection);
