@@ -113,7 +113,7 @@ bool Core::Init()
 	try
 	{
 		SetConfigFlags(FLAG_MSAA_4X_HINT);
-		InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Mlin");
+		InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Mills");
 		SetTargetFPS(120);
 		//SetFullScreen();
 	}
