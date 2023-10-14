@@ -7,7 +7,6 @@
 
 Menu::Menu(TransitionData** transitionData) : GamePhase(transitionData)
 {
-	InitiateTransfer(GameType::ThreeManMorris);
 	_fontSizeCurrent = _fontSizeStart;
 }
 
