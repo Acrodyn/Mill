@@ -2,7 +2,7 @@
 #include "System/Core.h"
 #include "Game/Connection.h"
 
-NineBoard::NineBoard() : Board(9, true, 3)
+NineBoard::NineBoard() : Board(9)
 {
 
 }

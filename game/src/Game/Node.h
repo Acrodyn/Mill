@@ -18,6 +18,7 @@ public:
 	~Node();
 
 	void Update() override;
+	void Reset();
 
 	void PairWith(Node* node, Connection* connection);
 	void SetHostedPiece(Piece* piece);

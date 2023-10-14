@@ -1,15 +1,21 @@
 #include "GamePhase.h"
 #include "raylib.h"
+#include "ScreenRelatedObject.h"
 #include "System/Core.h"
 
-GamePhase::GamePhase()
+GamePhase::GamePhase(TransitionData** transitionData) : _transitionData(transitionData)
 {
 
 }
 
 GamePhase::~GamePhase()
 {
+	for (ScreenRelatedObject* screenObject : _UIObjects)
+	{
+		delete screenObject;
+	}
 
+	_UIObjects.clear();
 }
 
 void GamePhase::Start()
@@ -17,11 +23,12 @@ void GamePhase::Start()
 	_phaseState = GamePhaseState::Starting;
 	_transitionAlpha = 1.f;
 	Init();
+	InitUI();
 }
 
 void GamePhase::End()
 {
-	Clean();
+	Destroy();
 }
 
 void GamePhase::Update()
@@ -32,6 +39,7 @@ void GamePhase::Update()
 	}
 
 	Loop();
+	DrawUI();
 	UpdateTransitions();
 }
 
@@ -50,9 +58,20 @@ void GamePhase::Init()
 
 }
 
-void GamePhase::Clean()
+void GamePhase::InitUI()
 {
 
+}
+
+void GamePhase::Destroy()
+{
+
+}
+
+void GamePhase::Reset()
+{
+	_phaseState = GamePhaseState::Starting;
+	_transitionAlpha = 1.f;
 }
 
 void GamePhase::TransitionTo()
@@ -100,6 +119,14 @@ void GamePhase::UpdateTransitions()
 	if (_transitionAlpha > 0.f)
 	{
 		DrawRectangle(0, 0, Core::GetDisplayWidth(), Core::GetDisplayHeight(), Fade(BLACK, _transitionAlpha));
+	}
+}
+
+void GamePhase::DrawUI()
+{
+	for (ScreenRelatedObject* screenObject : _UIObjects)
+	{
+		screenObject->Update();
 	}
 }
 

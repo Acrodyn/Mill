@@ -80,8 +80,9 @@ bool Player::IsVictor() const
 	return _isVictor;
 }
 
-void Player::ResetPlayer()
+void Player::Reset()
 {
 	_isVictor = false;
 	_remainingPieces = _maxPieces;
+	_currentPhase = PlayerPhase::Placing;
 }

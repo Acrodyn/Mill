@@ -1,8 +1,16 @@
 #include "Menu.h"
 #include "raylib.h"
 #include "System/Core.h"
+#include "Game/UI/Button.h"
+#include "Game/UI/Label.h"
+#include "Game/GameTransitionData.h"
 
-Menu::Menu()
+Menu::Menu(TransitionData** transitionData) : GamePhase(transitionData)
+{
+	InitiateTransfer(GameType::ThreeManMorris);
+}
+
+Menu::~Menu()
 {
 
 }
@@ -19,4 +27,19 @@ void Menu::Loop()
 			_phaseState = GamePhaseState::Ending;
 		}
 	}
+}
+
+void Menu::InitiateTransfer(GameType gameType, bool hasFlying)
+{
+	if (*_transitionData != nullptr)
+	{
+		delete *_transitionData;
+	}
+
+	GameTransitionData* transferData = new GameTransitionData();
+	transferData->GameType = gameType;
+	transferData->HasFlight = hasFlying;
+	(*_transitionData) = transferData;
+
+	_phaseState = GamePhaseState::Ending;
 }

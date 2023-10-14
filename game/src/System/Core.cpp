@@ -1,5 +1,6 @@
 #include "Core.h"
 #include "GamePhase.h"
+#include "TransitionData.h"
 #include "Menu/Menu.h"
 #include "Game/Game.h"
 
@@ -11,6 +12,19 @@
 Core::Core()
 {
 
+}
+
+Core::~Core()
+{
+	if (_gamePhase != nullptr)
+	{
+		delete _gamePhase;
+	}
+
+	if (_transitionData != nullptr)
+	{
+		delete _transitionData;
+	}
 }
 
 void Core::Run()
@@ -109,8 +123,8 @@ bool Core::Init()
 		return false;
 	}
 
-	//InitAppState(AppPhase::Menu);
-	InitAppState(AppState::Game); // for testing
+	InitAppState(AppState::Menu);
+	//InitAppState(AppState::Game); // for testing
 
 	return true;
 }
@@ -133,10 +147,10 @@ void Core::InitAppState(AppState newState)
 	switch (_currentState)
 	{
 	case AppState::Menu:
-		_gamePhase = new Menu();
+		_gamePhase = new Menu(&_transitionData);
 		break;
 	case AppState::Game:
-		_gamePhase = new Game();
+		_gamePhase = new Game(&_transitionData);
 		break;
 	default:
 		return;
@@ -155,8 +169,7 @@ void Core::ReinitAppState()
 		return;
 	}
 
-	_gamePhase->End();
-	_gamePhase->Start();
+	_gamePhase->Reset();
 }
 
 void Core::CheckForPhaseChange()

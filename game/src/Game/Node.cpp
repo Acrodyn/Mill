@@ -34,6 +34,12 @@ void Node::Update()
 	}
 }
 
+void Node::Reset()
+{
+	RemoveHostedPiece();
+	UnmarkNode();
+}
+
 void Node::PairWith(Node* node, Connection* connection)
 {
 	_pairedNodes.push_back(std::make_pair(node, connection));

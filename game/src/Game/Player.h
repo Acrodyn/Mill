@@ -17,7 +17,7 @@ public:
 	void SetColor(const CLITERAL(Color)& color);
 	void SetPhase(PlayerPhase phase);
 	void MarkAsVictor();
-	void ResetPlayer();
+	void Reset();
 	const uint8_t GetID() const;
 	const uint8_t GetRemainingPieces() const;
 	bool IsVictor() const;

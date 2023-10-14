@@ -11,21 +11,21 @@ class ScreenRelatedObject;
 class Game : public GamePhase
 {
 public:
-	Game();
+	Game(TransitionData** transitionData = nullptr);
 	~Game();
 
 protected:
 	void Init() override;
-	void Clean() override;
+	void InitUI() override;
+	void Destroy() override;
 	void Loop() override;
+	void Reset() override;
 
 private:
 	void InitBoard();
-	void InitUI();
-	void Reset();
+	void ResetGame();
 	void ReturnToMenu();
 
 private:
 	Board* _board = nullptr;
-	std::vector<ScreenRelatedObject*> _screenObjects;
 };

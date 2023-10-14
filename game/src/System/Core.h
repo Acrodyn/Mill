@@ -2,24 +2,28 @@
 
 #include "SystemGlobals.h"
 #include "raylib.h"
+#include <memory>
 
 class GamePhase;
+struct TransitionData;
 
 class Core
 {
 public:
 	Core();
+	~Core();
+
 	void Run();
 
 	static bool IsInteractPressed();
 	static bool IsInteractDown();
 	static bool IsScreenModifierPressed();
-	static Vector2 GetScreenCenter();
 	static int GetDisplayWidth();
 	static int GetDisplayHeight();
-	static Vector2 GetPixelPosition(float percentageX, float percentageY);
 	static int GetPixelPositionWidth(float percentage);
 	static int GetPixelPositionHeight(float percentage);
+	static Vector2 GetScreenCenter();
+	static Vector2 GetPixelPosition(float percentageX, float percentageY);
 
 private:
 	bool Init();
@@ -38,6 +42,7 @@ private:
 private:
 	AppState _currentState = AppState::Unset;
 	GamePhase* _gamePhase = nullptr;
+	TransitionData* _transitionData = nullptr;
 
 	static const int DEFAULT_SCREEN_WIDTH = 1280;
 	static const int DEFAULT_SCREEN_HEIGHT = 800;

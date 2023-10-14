@@ -32,12 +32,14 @@ class Board
 {
 public:
 	Board();
-	Board(uint8_t piecesPerPlayer, bool isFlyingAllowed, uint8_t flyingPieceThreshold = 0);
+	Board(uint8_t piecesPerPlayer);
 	virtual ~Board();
 
 	void Init(uint8_t playerCount = 2);
 	void Update();
+	void Reset();
 
+	void SetupFlying(bool hasFlying, uint8_t flyingPieceThreshold = 3);
 	Player* GetPlayer(uint8_t playerID);
 	Player* GetCurrentPlayer();
 	std::string GetPhaseDescriptionForPlayer(uint8_t playerOrder);
@@ -81,10 +83,8 @@ private:
 
 private:
 	const uint8_t PIECES_PER_PLAYER = 0;
-	const uint8_t FLYING_PIECE_THRESHOLD = 3;
 	const uint8_t MILL_CONNECTION_CONDITION = 2;
 	const uint8_t LOW_PIECE_COUNT = 2;
-	const bool IS_FLYING_ALLOWED = false;
 
 	std::unordered_map<uint8_t, Player*> _players;
 	std::vector<Node*> _nodes;
@@ -92,6 +92,8 @@ private:
 
 	uint8_t _currentPlayerIndex = 0;
 	uint8_t _playerCount = 0;
+	uint8_t _flyingPieceThreshold = 3;
 	Piece* _selectedPiece = nullptr;
 	bool _isGameInProgress = false;
+	bool _isFlyingAllowed = false;
 };

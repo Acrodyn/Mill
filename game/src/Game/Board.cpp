@@ -12,7 +12,7 @@ Board::Board()
 
 }
 
-Board::Board(uint8_t piecesPerPlayer, bool isFlyingAllowed, uint8_t flyingPieceThreshold) : PIECES_PER_PLAYER(piecesPerPlayer), IS_FLYING_ALLOWED(isFlyingAllowed), FLYING_PIECE_THRESHOLD(flyingPieceThreshold)
+Board::Board(uint8_t piecesPerPlayer) : PIECES_PER_PLAYER(piecesPerPlayer)
 {
 
 }
@@ -61,6 +61,35 @@ void Board::Update()
     {
         _selectedPiece->Update();
     }
+}
+
+void Board::Reset()
+{
+    for (Connection* connection : _connections)
+    {
+        connection->SetAsMarked(false);
+    }
+
+    for (Node* node : _nodes)
+    {
+        node->Reset();
+    }
+
+    for (auto player : _players)
+    {
+        player.second->Reset();
+    }
+
+    _currentPlayerIndex = 0;
+    _selectedPiece = nullptr;
+    _isGameInProgress = true;
+
+}
+
+void Board::SetupFlying(bool hasFlying, uint8_t flyingPieceThreshold)
+{
+    _isFlyingAllowed = hasFlying;
+    _flyingPieceThreshold = flyingPieceThreshold;
 }
 
 Player* Board::GetPlayer(uint8_t playerID)
@@ -175,7 +204,7 @@ void Board::EvaluatePlayerPhase(Player* player)
     {
         player->SetPhase(PlayerPhase::Placing);
     }
-    else if (IS_FLYING_ALLOWED && player->GetRemainingPieces() == 0 && GetPlayerPiecesOnBoard(player) <= FLYING_PIECE_THRESHOLD)
+    else if (_isFlyingAllowed && player->GetRemainingPieces() == 0 && GetPlayerPiecesOnBoard(player) <= _flyingPieceThreshold)
     {
         player->SetPhase(PlayerPhase::Flying);
     }
@@ -305,7 +334,7 @@ void Board::SetSelectedPiece(Node* hostNode)
         _selectedPiece->MarkAsSelected(false);
     }
 
-    if (IS_FLYING_ALLOWED && GetCurrentPlayer()->GetPhase() == PlayerPhase::Flying)
+    if (_isFlyingAllowed && GetCurrentPlayer()->GetPhase() == PlayerPhase::Flying)
     {
         MarkAllFreeNodes();
     }
