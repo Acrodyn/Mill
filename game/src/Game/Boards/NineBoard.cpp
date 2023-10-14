@@ -65,7 +65,7 @@ void NineBoard::SetupBoard()
 	CreateConnection(firstLayerRight, fifthLayerRight, eightLayerRight, ConnectionDirection::Vertical);
 }
 
-bool NineBoard::CheckForWinConditions()
+bool NineBoard::CheckForWinConditions(WinCondition winCondition)
 {
-	return false;
+	return winCondition == WinCondition::LowPieceCount || winCondition == WinCondition::InsufficientMoves;
 }

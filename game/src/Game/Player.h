@@ -17,7 +17,7 @@ public:
 	void RemovePiece();
 	uint8_t GetRemainingPieces() const;
 	bool HasRemainingPieces() const;
-	void SetColor(CLITERAL(Color) color);
+	void SetColor(const CLITERAL(Color)& color);
 	CLITERAL(Color) GetChosenColor() const;
 	void SetPhase(PlayerPhase phase);
 	void MarkAsVictor();

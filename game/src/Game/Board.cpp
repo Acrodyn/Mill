@@ -222,11 +222,6 @@ bool Board::IsThereRemoveablePieces(Player* remover)
 
 void Board::MarkRemovablePieces(Player* remover, bool ignoreMilledNodes)
 {
-    if (!IsThereRemoveablePieces(remover))
-    {
-        return;
-    }
-
     std::vector<Node*> piecesToMark;
 
     for (Node* node : _nodes)
@@ -296,7 +291,7 @@ void Board::SetSelectedPiece(Node* hostNode)
 {
     if (_selectedPiece != nullptr && _selectedPiece != hostNode->GetHostedPiece())
     {
-        _selectedPiece->SetAsSelected(false);
+        _selectedPiece->MarkAsSelected(false);
     }
 
     if (IS_FLYING_ALLOWED && GetCurrentPlayer()->GetPhase() == PlayerPhase::Flying)
@@ -309,13 +304,13 @@ void Board::SetSelectedPiece(Node* hostNode)
     }
 
     _selectedPiece = hostNode->GetHostedPiece();
-    _selectedPiece->SetAsSelected();
+    _selectedPiece->MarkAsSelected();
 }
 
 void Board::RehostSelectedPiece(Node* newHost)
 {
     newHost->SetHostedPiece(_selectedPiece);
-    _selectedPiece->SetAsSelected(false);
+    _selectedPiece->MarkAsSelected(false);
     _selectedPiece = nullptr;
 
     if (CheckForMill(newHost, true))
@@ -327,9 +322,9 @@ void Board::RehostSelectedPiece(Node* newHost)
     StartNextPlayer();
 }
 
-bool Board::CheckIfWinner(Player* player)
+bool Board::CheckIfWinner(Player* player, WinCondition winCondition)
 {
-    if (CheckForWinConditions())
+    if (CheckForWinConditions(winCondition))
     {
         player->MarkAsVictor();
         _isGameInProgress = false;
@@ -368,13 +363,25 @@ bool Board::ShouldCheckNodeInteractions()
     return (_isGameInProgress && GetCurrentPlayer()->GetPhase() != PlayerPhase::Unset) || (_selectedPiece != nullptr && _selectedPiece->IsMoving());
 }
 
+bool Board::CheckIfPossibleMoves(Player* player)
+{
+    return false;
+}
+
 void Board::TriggerMillEffect()
 {
     Player* currentPlayer = GetCurrentPlayer();
-    if (!CheckIfWinner(currentPlayer))
+    if (!CheckIfWinner(currentPlayer, WinCondition::Mill))
     {
-        currentPlayer->SetPhase(PlayerPhase::Removing);
-        MarkRemovablePieces(currentPlayer);
+        if (IsThereRemoveablePieces(currentPlayer))
+        {
+            currentPlayer->SetPhase(PlayerPhase::Removing);
+            MarkRemovablePieces(currentPlayer);
+        }
+        else
+        {
+            StartNextPlayer();
+        }
     }
 }
 
@@ -407,11 +414,21 @@ void Board::TryPieceRemoval(Node* node)
     if (node->HasHostedPiece() && node->GetHostedPiece()->IsRemovable())
     {
         Player* losingPlayer = GetPlayer(node->GetHostedPiece()->GetOwningPlayerID());
+        Player* currentPlayer = GetCurrentPlayer();
+        
         node->RemoveHostedPiece();
-        EvaluatePlayerPhase(losingPlayer);
-        EvaluatePlayerPhase(GetCurrentPlayer());
         UnmarkAllPieces();
         UnmarkAllConnections();
+
+        if (losingPlayer->GetPhase() != PlayerPhase::Placing 
+            && GetPlayerPiecesOnBoard(losingPlayer) <= LOW_PIECE_COUNT 
+            && CheckIfWinner(currentPlayer, WinCondition::LowPieceCount))
+        {
+            return;
+        }
+
+        EvaluatePlayerPhase(losingPlayer);
+        EvaluatePlayerPhase(GetCurrentPlayer());
         StartNextPlayer();
     }
 }

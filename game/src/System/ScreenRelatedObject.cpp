@@ -14,7 +14,7 @@ ScreenRelatedObject::ScreenRelatedObject(float screenRelatedPosX, float screenRe
 	_offset = Vector2();
 }
 
-ScreenRelatedObject::ScreenRelatedObject(Vector2 screenRelatedPosition)
+ScreenRelatedObject::ScreenRelatedObject(const Vector2& screenRelatedPosition)
 {
 	_screenRelatedPosition = screenRelatedPosition;
 	_offset = Vector2();
@@ -66,7 +66,7 @@ Vector2 ScreenRelatedObject::GetScreenRelatedPosition() const
 	return _screenRelatedPosition;
 }
 
-void ScreenRelatedObject::SetScreenRelatedPosition(Vector2 newPosition)
+void ScreenRelatedObject::SetScreenRelatedPosition(const Vector2& newPosition)
 {
 	_screenRelatedPosition = newPosition;
 }
@@ -76,7 +76,7 @@ void ScreenRelatedObject::SetAnchorObject(ScreenRelatedObject* anchorObject)
 	_anchorObject = anchorObject;
 }
 
-void ScreenRelatedObject::SetOffset(Vector2 offset)
+void ScreenRelatedObject::SetOffset(const Vector2& offset)
 {
 	_offset = offset;
 }

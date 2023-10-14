@@ -15,16 +15,16 @@ class Piece : public ScreenRelatedObject
 {
 public:
 	Piece() = delete;
-	Piece(Vector2 position, const Player* player);
+	Piece(const Vector2& position, const Player* player);
 	~Piece();
 
 	void Update() override;
 	const uint8_t GetOwningPlayerID() const;
 	bool IsRemovable() const;
 	void MarkAsRemovable(bool isRemovable = true);
-	void MoveToPosition(Vector2 destination, Function onMovementEnd = nullptr);
+	void MoveToPosition(const Vector2& destination, Function onMovementEnd = nullptr);
 	bool IsMoving() const;
-	void SetAsSelected(bool isSelected = true);
+	void MarkAsSelected(bool isSelected = true);
 
 private:
 	void CheckForMovement();

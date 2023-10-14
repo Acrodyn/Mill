@@ -49,7 +49,7 @@ uint8_t Player::GetRemainingPieces() const
 	return _remainingPieces;
 }
 
-void Player::SetColor(CLITERAL(Color) color)
+void Player::SetColor(const CLITERAL(Color)& color)
 {
 	_chosenColor = color;
 }

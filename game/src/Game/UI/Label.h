@@ -18,8 +18,8 @@ public:
 
 	Vector2 GetTextDimensions();
 	void SetFontSize(int fontSize);
-	void SetText(std::string text);
-	void SetColor(CLITERAL(Color) color);
+	void SetText(const std::string& text);
+	void SetColor(const CLITERAL(Color)& color);
 	void RefreshOffset();
 
 protected:

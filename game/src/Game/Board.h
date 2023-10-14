@@ -20,6 +20,14 @@ enum class PlayerPhase
 	Flying
 };
 
+enum class WinCondition
+{
+	Unset,
+	Mill,
+	LowPieceCount,
+	InsufficientMoves
+};
+
 class Board
 {
 public:
@@ -36,7 +44,7 @@ public:
 
 protected:
 	virtual void SetupBoard() = 0;
-	virtual bool CheckForWinConditions() = 0;
+	virtual bool CheckForWinConditions(WinCondition winCondition) = 0;
 
 	Node* CreateNode(float screenPosX, float screenPosY);
 	bool CreatePiece(Node* parentNode);
@@ -51,8 +59,9 @@ private:
 	bool AnyPiecePlaced();
 	bool IsThereRemoveablePieces(Player* remover);
 	bool CheckForMill(Node* node, bool markMill = false);
-	bool CheckIfWinner(Player* player);
+	bool CheckIfWinner(Player* player, WinCondition winCondition);
 	bool ShouldCheckNodeInteractions();
+	bool CheckIfPossibleMoves(Player* player);
 	void TriggerMillEffect();
 	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
 	void UnmarkAllPieces();
@@ -67,13 +76,12 @@ private:
 	void TryPieceRemoval(Node* node);
 	void TryPieceMovement(Node* node);
 
-protected:
-	const uint8_t PIECES_PER_PLAYER = 0;
-	const bool IS_FLYING_ALLOWED = false;
-	const uint8_t FLYING_PIECE_THRESHOLD = 3;
-
 private:
+	const uint8_t PIECES_PER_PLAYER = 0;
+	const uint8_t FLYING_PIECE_THRESHOLD = 3;
 	const uint8_t MILL_CONNECTION_CONDITION = 2;
+	const uint8_t LOW_PIECE_COUNT = 2;
+	const bool IS_FLYING_ALLOWED = false;
 
 	std::unordered_map<uint8_t, Player*> _players;
 	std::vector<Node*> _nodes;

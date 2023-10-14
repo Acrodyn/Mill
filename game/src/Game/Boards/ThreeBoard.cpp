@@ -45,7 +45,7 @@ void ThreeBoard::SetupBoard()
 	CreateConnection(botRight, midRight, ConnectionDirection::Vertical);
 }
 
-bool ThreeBoard::CheckForWinConditions()
+bool ThreeBoard::CheckForWinConditions(WinCondition winCondition)
 {
-	return true;
+	return winCondition == WinCondition::Mill;
 }

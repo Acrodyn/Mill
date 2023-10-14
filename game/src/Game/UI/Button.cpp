@@ -34,12 +34,12 @@ bool Button::IsMouseOnObject()
 	return CheckCollisionPointRec(GetMousePosition(), Rectangle({(float)GetPositionX(), (float)GetPositionY(), _size.x, _size.y}));
 }
 
-void Button::SetColor(CLITERAL(Color) color)
+void Button::SetColor(const CLITERAL(Color)& color)
 {
 	_buttonColor = color;
 }
 
-void Button::SetPressedColor(CLITERAL(Color) color)
+void Button::SetPressedColor(const CLITERAL(Color)& color)
 {
 	_pressedColor = color;
 }

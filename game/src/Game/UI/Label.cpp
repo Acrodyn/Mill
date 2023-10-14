@@ -38,13 +38,13 @@ void Label::SetFontSize(int fontSize)
 	RefreshOffset();
 }
 
-void Label::SetText(std::string text)
+void Label::SetText(const std::string& text)
 {
 	_text = text;
 	RefreshOffset();
 }
 
-void Label::SetColor(CLITERAL(Color) color)
+void Label::SetColor(const CLITERAL(Color)& color)
 {
 	_textColor = color;
 }

@@ -4,7 +4,7 @@
 #include "raymath.h"
 #include "System/Core.h"
 
-Piece::Piece(Vector2 position, const Player* player) : ScreenRelatedObject{ position }, _owningPlayerID(player->GetID()), _pieceColor(player->GetChosenColor()), _destination(Vector2{})
+Piece::Piece(const Vector2& position, const Player* player) : ScreenRelatedObject{ position }, _owningPlayerID(player->GetID()), _pieceColor(player->GetChosenColor()), _destination(Vector2{})
 {
 
 }
@@ -40,7 +40,7 @@ void Piece::MarkAsRemovable(bool isRemovable)
 	_isRemovable = isRemovable;
 }
 
-void Piece::MoveToPosition(Vector2 destination, Function onMovementEnd)
+void Piece::MoveToPosition(const Vector2& destination, Function onMovementEnd)
 {
 	_destination = destination;
 	_onMovementEnd = onMovementEnd;
@@ -52,7 +52,7 @@ bool Piece::IsMoving() const
 	return _isMoving;
 }
 
-void Piece::SetAsSelected(bool isSelected)
+void Piece::MarkAsSelected(bool isSelected)
 {
 	_isSelected = isSelected;
 }

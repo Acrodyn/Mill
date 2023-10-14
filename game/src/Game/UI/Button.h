@@ -16,8 +16,8 @@ public:
 	void Update() override;
 	bool IsMouseOnObject() override;
 
-	void SetColor(CLITERAL(Color) color);
-	void SetPressedColor(CLITERAL(Color) color);
+	void SetColor(const CLITERAL(Color)& color);
+	void SetPressedColor(const CLITERAL(Color)& color);
 	void AttachLabel(Label* label);
 	Label* GetLabel();
 

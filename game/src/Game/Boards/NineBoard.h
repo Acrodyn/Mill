@@ -11,5 +11,5 @@ public:
 
 private:
 	void SetupBoard() override;
-	bool CheckForWinConditions() override;
+	bool CheckForWinConditions(WinCondition winCondition) override;
 };

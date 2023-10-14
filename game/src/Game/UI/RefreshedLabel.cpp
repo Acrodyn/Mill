@@ -7,12 +7,12 @@ RefreshedLabel::RefreshedLabel(float positionX, float positionY) : Label(positio
 
 }
 
-RefreshedLabel::RefreshedLabel(int fontSize, std::string text) : Label(fontSize, text)
+RefreshedLabel::RefreshedLabel(int fontSize, const std::string& text) : Label(fontSize, text)
 {
 
 }
 
-RefreshedLabel::RefreshedLabel(float positionX, float positionY, int fontSize, std::string text) : Label(positionX, positionY, fontSize, text)
+RefreshedLabel::RefreshedLabel(float positionX, float positionY, int fontSize, const std::string& text) : Label(positionX, positionY, fontSize, text)
 {
 
 }
