@@ -332,7 +332,13 @@ void Board::UnmarkAllNodes()
     for (Node* node : _nodes)
     {
         node->UnmarkNode();
+    }
+}
 
+void Board::UnmarkAllSelectablePieces()
+{
+    for (Node* node : _nodes)
+    {
         if (node->HasHostedPiece())
         {
             node->GetHostedPiece()->MarkAsSelectable(false);
@@ -544,6 +550,7 @@ void Board::TryPieceMovement(Node* node)
     {
         if (node->IsMarked())
         {
+            UnmarkAllSelectablePieces();
             UnmarkAllNodes();
             _selectedPiece->MoveToPosition(node->GetScreenRelatedPosition(), [=]() { RehostSelectedPiece(node); });
             return;
@@ -558,6 +565,7 @@ void Board::TryPieceMovement(Node* node)
         && node->GetHostedPiece()->GetOwningPlayerID() == GetCurrentPlayer()->GetID()
         && node->HasFreeAdjacentNodes())
     {
+        UnmarkAllNodes();
         SetSelectedPiece(node);
     }
 }
