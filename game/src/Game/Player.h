@@ -20,7 +20,7 @@ public:
 	void Reset();
 	const uint8_t GetID() const;
 	const uint8_t GetRemainingPieces() const;
-	bool IsVictor() const;
+	bool IsWinner() const;
 	bool HasRemainingPieces() const;
 	PlayerPhase GetPhase() const;
 	const CLITERAL(Color) GetChosenColor() const;
@@ -32,5 +32,5 @@ private:
 	uint16_t _winCount = 0;
 	CLITERAL(Color) _chosenColor = WHITE;
 	PlayerPhase _currentPhase;
-	bool _isVictor = false;
+	bool _isWinner = false;
 };

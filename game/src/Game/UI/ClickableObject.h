@@ -1,9 +1,8 @@
 #pragma once
 
+#include "System/SystemGlobals.h"
+
 #include <functional>
-
-typedef std::function<void()> Function;
-
 
 class ClickableObject
 {
@@ -11,8 +10,8 @@ public:
 	ClickableObject() {};
 	virtual ~ClickableObject() {};
 
-	void RegisterOnClick(Function onClick);
-	void RegisterOnRelease(Function onRelease);
+	void RegisterOnClick(VoidFunction onClick);
+	void RegisterOnRelease(VoidFunction onRelease);
 	void CheckForClick();
 
 protected:
@@ -23,6 +22,6 @@ protected:
 protected:
 	bool _isPressed = false;
 
-	Function _onClick = nullptr;
-	Function _OnRelease = nullptr;
+	VoidFunction _onClick = nullptr;
+	VoidFunction _OnRelease = nullptr;
 };

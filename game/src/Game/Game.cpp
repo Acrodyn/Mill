@@ -1,14 +1,15 @@
 #include "Game.h"
-#include "System/Core.h"
+#include "Player.h"
+#include "GameTransitionData.h"
 #include "Board.h"
 #include "Boards/ThreeBoard.h"
 #include "Boards/NineBoard.h"
+#include "System/Core.h"
+#include "System/ScreenRelatedObject.h"
 #include "UI/Button.h"
 #include "UI/Label.h"
 #include "UI/RefreshedLabel.h"
-#include "Player.h"
-#include "System/ScreenRelatedObject.h"
-#include "GameTransitionData.h"
+#include "UI/RectangleMarker.h"
 
 Game::Game(TransitionData** transitionData) : GamePhase(transitionData)
 {
@@ -111,6 +112,16 @@ void Game::InitUI()
 	secondActionLabel->SetColor(LIME);
 	secondActionLabel->RegisterRefreshFunction([&]() { return _board->GetPhaseDescriptionForPlayer(2); });
 	_UIObjects.push_back(secondActionLabel);
+
+	RectangleMarker* playerOneMarker = new RectangleMarker(0.1f, 0.3f, 150.f, 70.f);
+	playerOneMarker->SetShouldMarkDelegate([&]() { return _board->HasTurn(1); });
+	playerOneMarker->SetShouldHighlightDelegate([&]() { return _board->IsWinner(1); });
+	_UIObjects.push_back(playerOneMarker);
+
+	RectangleMarker* playerTwoMarker = new RectangleMarker(0.9f, 0.3f, 150.f, 70.f);
+	playerTwoMarker->SetShouldMarkDelegate([&]() { return _board->HasTurn(2); });
+	playerTwoMarker->SetShouldHighlightDelegate([&]() { return _board->IsWinner(2); });
+	_UIObjects.push_back(playerTwoMarker);
 }
 
 void Game::ResetGame()

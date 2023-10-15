@@ -67,7 +67,7 @@ void Player::SetPhase(PlayerPhase phase)
 void Player::MarkAsVictor()
 {
 	++_winCount;
-	_isVictor = true;
+	_isWinner = true;
 }
 
 PlayerPhase Player::GetPhase() const
@@ -75,14 +75,14 @@ PlayerPhase Player::GetPhase() const
 	return _currentPhase;
 }
 
-bool Player::IsVictor() const
+bool Player::IsWinner() const
 {
-	return _isVictor;
+	return _isWinner;
 }
 
 void Player::Reset()
 {
-	_isVictor = false;
+	_isWinner = false;
 	_remainingPieces = _maxPieces;
 	_currentPhase = PlayerPhase::Placing;
 }

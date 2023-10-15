@@ -112,7 +112,7 @@ std::string Board::GetPhaseDescriptionForPlayer(uint8_t playerOrder)
     if (!_isGameInProgress)
     {
         Player* player = GetPlayer(playerOrder);
-        return player->IsVictor() ? "Victory :)" : "Defeat :(";
+        return player->IsWinner() ? "Victory :)" : "Defeat :(";
     }
 
     if (GetCurrentPlayer() != GetPlayer(playerOrder))
@@ -402,6 +402,16 @@ bool Board::CheckIfWinner(Player* player, WinCondition winCondition)
     }
 
     return false;
+}
+
+bool Board::HasTurn(uint8_t playerID)
+{
+    return _currentPlayerIndex == (playerID - 1);
+}
+
+bool Board::IsWinner(uint8_t playerID)
+{
+    return GetPlayer(playerID)->IsWinner();
 }
 
 void Board::EvaluateNodeInteraction(Node* node)

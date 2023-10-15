@@ -42,6 +42,8 @@ public:
 	void SetupFlying(bool hasFlying, uint8_t flyingPieceThreshold = 3);
 	Player* GetPlayer(uint8_t playerID);
 	Player* GetCurrentPlayer();
+	bool HasTurn(uint8_t playerID);
+	bool IsWinner(uint8_t playerID);
 	std::string GetPhaseDescriptionForPlayer(uint8_t playerOrder);
 
 protected:

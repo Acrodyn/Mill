@@ -17,12 +17,12 @@ void ClickableObject::OnClickReleased()
 	}
 }
 
-void ClickableObject::RegisterOnClick(Function onClick)
+void ClickableObject::RegisterOnClick(VoidFunction onClick)
 {
 	_onClick = onClick;
 }
 
-void ClickableObject::RegisterOnRelease(Function onRelease)
+void ClickableObject::RegisterOnRelease(VoidFunction onRelease)
 {
 	_OnRelease = onRelease;
 }
