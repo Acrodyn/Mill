@@ -112,24 +112,24 @@ std::string Board::GetPhaseDescriptionForPlayer(uint8_t playerOrder)
     if (!_isGameInProgress)
     {
         Player* player = GetPlayer(playerOrder);
-        return player->IsVictor() ? "Victory" : "Defeat";
+        return player->IsVictor() ? "Victory :)" : "Defeat :(";
     }
 
     if (GetCurrentPlayer() != GetPlayer(playerOrder))
     {
-        return "Wait";
+        return "~ Wait ~";
     }
 
     switch (GetPlayer(playerOrder)->GetPhase())
     {
     case PlayerPhase::Placing:
-        return "Place";
+        return "~ Place ~";
     case PlayerPhase::Removing:
-        return "Remove";
+        return "~ Remove ~";
     case PlayerPhase::Moving:
-        return "Move";
+        return "~ Move ~";
     case PlayerPhase::Flying:
-        return "Fly";
+        return "~ Fly ~";
 
     default:
         return std::string();
@@ -193,6 +193,11 @@ void Board::StartNextPlayer()
         {
             return;
         }
+    }
+
+    if (nextPlayer->GetPhase() == PlayerPhase::Moving)
+    {
+        MarkMoveablePieces(nextPlayer);
     }
 
     _currentPlayerIndex = nextPlayerIndex;
@@ -289,6 +294,17 @@ void Board::MarkRemovablePieces(Player* remover, bool ignoreMilledNodes)
     }
 }
 
+void Board::MarkMoveablePieces(Player* remover)
+{
+    for (Node* node : _nodes)
+    {
+        if (node->HasHostedPiece() && node->GetHostedPiece()->GetOwningPlayerID() == remover->GetID() && node->HasFreeAdjacentNodes())
+        {
+            node->GetHostedPiece()->MarkAsSelectable();
+        }
+    }
+}
+
 void Board::UnmarkAllPieces()
 {
     for (Node* node : _nodes)
@@ -316,6 +332,11 @@ void Board::UnmarkAllNodes()
     for (Node* node : _nodes)
     {
         node->UnmarkNode();
+
+        if (node->HasHostedPiece())
+        {
+            node->GetHostedPiece()->MarkAsSelectable(false);
+        }
     }
 }
 
@@ -519,22 +540,21 @@ void Board::TryPieceRemoval(Node* node)
 
 void Board::TryPieceMovement(Node* node)
 {
-    if (_selectedPiece == nullptr && node->HasHostedPiece() && node->GetHostedPiece()->GetOwningPlayerID() == GetCurrentPlayer()->GetID())
-    {
-        SetSelectedPiece(node);
-    }
-    else if (_selectedPiece != nullptr)
+    if (_selectedPiece != nullptr)
     {
         if (node->IsMarked())
         {
             UnmarkAllNodes();
             _selectedPiece->MoveToPosition(node->GetScreenRelatedPosition(), [=]() { RehostSelectedPiece(node); });
+            return;
         }
-        else if (node->GetHostedPiece() != nullptr && node->GetHostedPiece()->GetOwningPlayerID() == GetCurrentPlayer()->GetID())
-        {
-            UnmarkAllNodes();
-            SetSelectedPiece(node);
-        }
+    }
+
+    if (node->GetHostedPiece() != nullptr
+        && node->GetHostedPiece()->GetOwningPlayerID() == GetCurrentPlayer()->GetID()
+        && node->HasFreeAdjacentNodes())
+    {
+        SetSelectedPiece(node);
     }
 }
 

@@ -59,9 +59,11 @@ private:
 	void EvaluatePlayerPhase(Player* player);
 	void TriggerMillEffect();
 	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
-	void UnmarkAllPieces();
+	void MarkMoveablePieces(Player* remover);
 	void MarkAllFreeNodes();
+	void UnmarkAllPieces();
 	void UnmarkAllNodes();
+	void UnmarkAllSelectablePieces();
 	void UnmarkAllConnections();
 	void SetSelectedPiece(Node* hostNode);
 	void RehostSelectedPiece(Node* newHost);

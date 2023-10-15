@@ -84,23 +84,31 @@ void Game::InitUI()
 	menuButton->RegisterOnRelease([&]() { ReturnToMenu(); });
 	_UIObjects.push_back(menuButton);
 
-	RefreshedLabel* firstRefreshLabel = new RefreshedLabel(0.1f, 0.5f, 50);
-	firstRefreshLabel->SetColor(RED);
-	firstRefreshLabel->RegisterRefreshFunction([&]() { return std::to_string(_board->GetPlayer(1)->GetRemainingPieces()); });
+	Label* playerOneLabel = new Label(0.1f, 0.3f, 25, "Player 1");
+	playerOneLabel->SetColor(LIME);
+	_UIObjects.push_back(playerOneLabel);
+
+	Label* playerTwoLabel = new Label(0.9f, 0.3f, 25, "Player 2");
+	playerTwoLabel->SetColor(LIME);
+	_UIObjects.push_back(playerTwoLabel);
+
+	RefreshedLabel* firstRefreshLabel = new RefreshedLabel(0.1f, 0.5f, 25);
+	firstRefreshLabel->SetColor(LIME);
+	firstRefreshLabel->RegisterRefreshFunction([&]() { return "Pieces: " + std::to_string(_board->GetPlayer(1)->GetRemainingPieces()); });
 	_UIObjects.push_back(firstRefreshLabel);
 
-	RefreshedLabel* secondRefreshLabel = new RefreshedLabel(0.9f, 0.5f, 50);
-	secondRefreshLabel->SetColor(RED);
-	secondRefreshLabel->RegisterRefreshFunction([&]() { return std::to_string(_board->GetPlayer(2)->GetRemainingPieces()); });
+	RefreshedLabel* secondRefreshLabel = new RefreshedLabel(0.9f, 0.5f, 25);
+	secondRefreshLabel->SetColor(LIME);
+	secondRefreshLabel->RegisterRefreshFunction([&]() { return "Pieces: " + std::to_string(_board->GetPlayer(2)->GetRemainingPieces()); });
 	_UIObjects.push_back(secondRefreshLabel);
 
-	RefreshedLabel* firstActionLabel = new RefreshedLabel(0.1f, 0.70f, 25);
-	firstActionLabel->SetColor(GREEN);
+	RefreshedLabel* firstActionLabel = new RefreshedLabel(0.1f, 0.70f, 35);
+	firstActionLabel->SetColor(LIME);
 	firstActionLabel->RegisterRefreshFunction([&]() { return _board->GetPhaseDescriptionForPlayer(1); });
 	_UIObjects.push_back(firstActionLabel);
 
-	RefreshedLabel* secondActionLabel = new RefreshedLabel(0.9f, 0.7f, 25);
-	secondActionLabel->SetColor(GREEN);
+	RefreshedLabel* secondActionLabel = new RefreshedLabel(0.9f, 0.7f, 35);
+	secondActionLabel->SetColor(LIME);
 	secondActionLabel->RegisterRefreshFunction([&]() { return _board->GetPhaseDescriptionForPlayer(2); });
 	_UIObjects.push_back(secondActionLabel);
 }

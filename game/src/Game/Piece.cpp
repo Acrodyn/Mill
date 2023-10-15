@@ -57,6 +57,11 @@ void Piece::MarkAsSelected(bool isSelected)
 	_isSelected = isSelected;
 }
 
+void Piece::MarkAsSelectable(bool isSelectable)
+{
+	_isSelectable = isSelectable;
+}
+
 void Piece::CheckForMovement()
 {
 	if (!_isMoving)
@@ -78,6 +83,10 @@ CLITERAL(Color) Piece::GetOutlineColor()
 	if (_isSelected)
 	{
 		return GREEN;
+	}
+	else if (_isSelectable)
+	{
+		return PURPLE;
 	}
 	else if (_isRemovable)
 	{

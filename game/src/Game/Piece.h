@@ -25,6 +25,7 @@ public:
 	void MoveToPosition(const Vector2& destination, Function onMovementEnd = nullptr);
 	bool IsMoving() const;
 	void MarkAsSelected(bool isSelected = true);
+	void MarkAsSelectable(bool isSelectable = true);
 
 private:
 	void CheckForMovement();
@@ -38,6 +39,7 @@ private:
 	bool _isRemovable = false;
 	bool _isMoving = false;
 	bool _isSelected = false;
+	bool _isSelectable = false;
 	Vector2 _destination;
 	float _movementSpeed = 0.8f;
 	Function _onMovementEnd = nullptr;

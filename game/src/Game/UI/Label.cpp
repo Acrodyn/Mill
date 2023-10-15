@@ -29,7 +29,7 @@ void Label::Update()
 
 Vector2 Label::GetTextDimensions()
 {
-	return MeasureTextEx(GetFontDefault(), _text.c_str(), (float)_fontSize, 1.f);
+	return MeasureTextEx(GetFontDefault(), _text.c_str(), (float)_fontSize, 2.f);
 }
 
 void Label::SetFontSize(int fontSize)

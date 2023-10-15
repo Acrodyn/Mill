@@ -47,16 +47,6 @@ void Core::Run()
 	Terminate();
 }
 
-bool Core::IsInteractPressed()
-{
-	return IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsKeyPressed(KEY_SPACE);
-}
-
-bool Core::IsInteractDown()
-{
-	return IsMouseButtonDown(MOUSE_BUTTON_LEFT) || IsKeyDown(KEY_SPACE);;
-}
-
 bool Core::IsScreenModifierPressed()
 {
 	return IsKeyReleased(KEY_ENTER);

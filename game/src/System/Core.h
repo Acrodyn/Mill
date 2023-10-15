@@ -2,7 +2,6 @@
 
 #include "SystemGlobals.h"
 #include "raylib.h"
-#include <memory>
 
 class GamePhase;
 struct TransitionData;
@@ -15,8 +14,6 @@ public:
 
 	void Run();
 
-	static bool IsInteractPressed();
-	static bool IsInteractDown();
 	static bool IsScreenModifierPressed();
 	static int GetDisplayWidth();
 	static int GetDisplayHeight();
