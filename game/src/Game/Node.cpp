@@ -30,7 +30,7 @@ void Node::Update()
 	}
 	else
 	{
-		DrawCircle(GetPositionX(), GetPositionY(), NODE_SIZE, _isMarked ? GREEN : RAYWHITE);
+		DrawCircle(GetPixelPositionX(), GetPixelPositionY(), NODE_SIZE, _isMarked ? GREEN : RAYWHITE);
 	}
 }
 
@@ -154,5 +154,5 @@ void Node::CalculateConnections(ConnectionReport& report, bool checkAdjacentNode
 
 bool Node::IsMouseOnObject()
 {
-	return CheckCollisionPointCircle(GetMousePosition(), GetPosition(), GetSize() * COLLISION_CHECK_MULTIPLIER);
+	return CheckCollisionPointCircle(GetMousePosition(), GetPixelPosition(), GetSize() * COLLISION_CHECK_MULTIPLIER);
 }

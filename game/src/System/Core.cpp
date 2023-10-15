@@ -88,6 +88,21 @@ Vector2 Core::GetPixelPosition(float percentageX, float percentageY)
 	return Vector2({ (float)GetPixelPositionWidth(percentageX), (float)GetPixelPositionHeight(percentageY)});
 }
 
+Vector2 Core::GetPixelPosition(Vector2 percentage)
+{
+	return GetPixelPosition(percentage.x, percentage.y);
+}
+
+Vector2 Core::GetScreenRelatedPosition(float positionX, float positionY)
+{
+	return Vector2({ positionX / (float)GetDisplayWidth(), positionY / (float)GetDisplayHeight() });
+}
+
+Vector2 Core::GetScreenRelatedPosition(Vector2 position)
+{
+	return GetScreenRelatedPosition(position.x, position.y);
+}
+
 int Core::GetPixelPositionWidth(float percentage)
 {
 	return (int)(percentage * GetDisplayWidth());

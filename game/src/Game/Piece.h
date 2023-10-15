@@ -41,6 +41,6 @@ private:
 	bool _isSelected = false;
 	bool _isSelectable = false;
 	Vector2 _destination;
-	float _movementSpeed = 0.8f;
+	float _movementSpeed = 0.5f;
 	Function _onMovementEnd = nullptr;
 };

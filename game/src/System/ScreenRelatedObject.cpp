@@ -31,31 +31,31 @@ ScreenRelatedObject::~ScreenRelatedObject()
 
 }
 
-int ScreenRelatedObject::GetPositionX() const
+int ScreenRelatedObject::GetPixelPositionX() const
 {
 	if (_anchorObject != nullptr)
 	{
-		return _anchorObject->GetPositionX() + (int)_offset.x;
+		return _anchorObject->GetPixelPositionX() + (int)_offset.x;
 	}
 
 	return (int)(Core::GetPixelPositionWidth(_screenRelatedPosition.x) + _offset.x);
 }
 
-int ScreenRelatedObject::GetPositionY() const
+int ScreenRelatedObject::GetPixelPositionY() const
 {
 	if (_anchorObject != nullptr)
 	{
-		return _anchorObject->GetPositionY() + (int)_offset.y;
+		return _anchorObject->GetPixelPositionY() + (int)_offset.y;
 	}
 
 	return (int)(Core::GetPixelPositionHeight(_screenRelatedPosition.y) + _offset.y);
 }
 
-Vector2 ScreenRelatedObject::GetPosition() const
+Vector2 ScreenRelatedObject::GetPixelPosition() const
 {
 	if (_anchorObject != nullptr)
 	{
-		return Vector2Add(_anchorObject->GetPosition(), _offset);
+		return Vector2Add(_anchorObject->GetPixelPosition(), _offset);
 	}
 
 	return Vector2Add(Core::GetPixelPosition(_screenRelatedPosition.x, _screenRelatedPosition.y), _offset);
@@ -69,6 +69,11 @@ Vector2 ScreenRelatedObject::GetScreenRelatedPosition() const
 void ScreenRelatedObject::SetScreenRelatedPosition(const Vector2& newPosition)
 {
 	_screenRelatedPosition = newPosition;
+}
+
+void ScreenRelatedObject::SetPosition(const Vector2& newPosition)
+{
+	_screenRelatedPosition = Core::GetScreenRelatedPosition(newPosition);
 }
 
 void ScreenRelatedObject::SetAnchorObject(ScreenRelatedObject* anchorObject)

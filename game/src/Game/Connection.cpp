@@ -14,7 +14,7 @@ Connection::~Connection()
 
 void Connection::Update()
 {
-	DrawLine(_node1->GetPositionX(), _node1->GetPositionY(), _node2->GetPositionX(), _node2->GetPositionY(), _isMarked ? YELLOW : RAYWHITE);
+	DrawLine(_node1->GetPixelPositionX(), _node1->GetPixelPositionY(), _node2->GetPixelPositionX(), _node2->GetPixelPositionY(), _isMarked ? YELLOW : RAYWHITE);
 }
 
 ConnectionDirection Connection::GetDirection()

@@ -17,7 +17,7 @@ Piece::~Piece()
 void Piece::Update()
 {
 	CheckForMovement();
-	Vector2 position = GetPosition();
+	Vector2 position = GetPixelPosition();
 
 	DrawCircleV(position, PIECE_SIZE, _pieceColor);
 	DrawRing(position, 10.f, 12.f, 0.f, 360.f, 0, Fade(BLACK, .7f));

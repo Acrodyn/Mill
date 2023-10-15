@@ -21,6 +21,9 @@ public:
 	static int GetPixelPositionHeight(float percentage);
 	static Vector2 GetScreenCenter();
 	static Vector2 GetPixelPosition(float percentageX, float percentageY);
+	static Vector2 GetPixelPosition(Vector2 percentage);
+	static Vector2 GetScreenRelatedPosition(float positionX, float positionY);
+	static Vector2 GetScreenRelatedPosition(Vector2 position);
 
 private:
 	bool Init();

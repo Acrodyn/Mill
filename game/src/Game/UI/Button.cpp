@@ -21,7 +21,7 @@ void Button::Update()
 	CheckForClick();
 
 	CLITERAL(Color) color = _isPressed ? _pressedColor : _buttonColor;
-	DrawRectangleV(GetPosition(), _size, color);
+	DrawRectangleV(GetPixelPosition(), _size, color);
 
 	if (_attachedLabel != nullptr)
 	{
@@ -31,7 +31,7 @@ void Button::Update()
 
 bool Button::IsMouseOnObject()
 {
-	return CheckCollisionPointRec(GetMousePosition(), Rectangle({(float)GetPositionX(), (float)GetPositionY(), _size.x, _size.y}));
+	return CheckCollisionPointRec(GetMousePosition(), Rectangle({(float)GetPixelPositionX(), (float)GetPixelPositionY(), _size.x, _size.y}));
 }
 
 void Button::SetColor(const CLITERAL(Color)& color)

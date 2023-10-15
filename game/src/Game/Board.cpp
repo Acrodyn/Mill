@@ -548,6 +548,10 @@ void Board::TryPieceMovement(Node* node)
             _selectedPiece->MoveToPosition(node->GetScreenRelatedPosition(), [=]() { RehostSelectedPiece(node); });
             return;
         }
+        else if (_selectedPiece->IsMoving())
+        {
+            return;
+        }
     }
 
     if (node->GetHostedPiece() != nullptr

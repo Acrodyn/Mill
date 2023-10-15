@@ -24,7 +24,7 @@ Label::~Label()
 
 void Label::Update()
 {
-	DrawText(_text.c_str(), GetPositionX(), GetPositionY(), _fontSize, _textColor);
+	DrawText(_text.c_str(), GetPixelPositionX(), GetPixelPositionY(), _fontSize, _textColor);
 }
 
 Vector2 Label::GetTextDimensions()
