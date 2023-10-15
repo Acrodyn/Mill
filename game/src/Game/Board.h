@@ -59,7 +59,7 @@ private:
 	void EvaluatePlayerPhase(Player* player);
 	void TriggerMillEffect();
 	void MarkRemovablePieces(Player* remover, bool ignoreMilledNodes = true);
-	void MarkMoveablePieces(Player* remover);
+	void MarkMoveablePieces(Player* player, bool checkAdjacent = true);
 	void MarkAllFreeNodes();
 	void UnmarkAllPieces();
 	void UnmarkAllNodes();

@@ -195,9 +195,10 @@ void Board::StartNextPlayer()
         }
     }
 
-    if (nextPlayer->GetPhase() == PlayerPhase::Moving)
+    PlayerPhase nextPlayerPhase = nextPlayer->GetPhase();
+    if (nextPlayerPhase == PlayerPhase::Moving || nextPlayerPhase == PlayerPhase::Flying)
     {
-        MarkMoveablePieces(nextPlayer);
+        MarkMoveablePieces(nextPlayer, nextPlayerPhase == PlayerPhase::Moving);
     }
 
     _currentPlayerIndex = nextPlayerIndex;
@@ -294,11 +295,13 @@ void Board::MarkRemovablePieces(Player* remover, bool ignoreMilledNodes)
     }
 }
 
-void Board::MarkMoveablePieces(Player* remover)
+void Board::MarkMoveablePieces(Player* player, bool checkAdjacent)
 {
     for (Node* node : _nodes)
     {
-        if (node->HasHostedPiece() && node->GetHostedPiece()->GetOwningPlayerID() == remover->GetID() && node->HasFreeAdjacentNodes())
+        if (node->HasHostedPiece() 
+            && (node->GetHostedPiece()->GetOwningPlayerID() == player->GetID())
+            && ((checkAdjacent && node->HasFreeAdjacentNodes()) || !checkAdjacent))
         {
             node->GetHostedPiece()->MarkAsSelectable();
         }
