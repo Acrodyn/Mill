@@ -576,7 +576,7 @@ void Board::TryPieceMovement(Node* node)
 
     if (node->GetHostedPiece() != nullptr
         && node->GetHostedPiece()->GetOwningPlayerID() == GetCurrentPlayer()->GetID()
-        && node->HasFreeAdjacentNodes())
+        && (GetCurrentPlayer()->GetPhase() == PlayerPhase::Flying || node->HasFreeAdjacentNodes()))
     {
         UnmarkAllNodes();
         SetSelectedPiece(node);

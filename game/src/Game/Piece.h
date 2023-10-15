@@ -19,13 +19,13 @@ public:
 	~Piece();
 
 	void Update() override;
-	const uint8_t GetOwningPlayerID() const;
-	bool IsRemovable() const;
 	void MarkAsRemovable(bool isRemovable = true);
 	void MoveToPosition(const Vector2& destination, Function onMovementEnd = nullptr);
-	bool IsMoving() const;
 	void MarkAsSelected(bool isSelected = true);
 	void MarkAsSelectable(bool isSelectable = true);
+	const uint8_t GetOwningPlayerID() const;
+	bool IsMoving() const;
+	bool IsRemovable() const;
 
 private:
 	void CheckForMovement();
@@ -40,7 +40,7 @@ private:
 	bool _isMoving = false;
 	bool _isSelected = false;
 	bool _isSelectable = false;
-	Vector2 _destination;
 	float _movementSpeed = 0.5f;
+	Vector2 _destination;
 	Function _onMovementEnd = nullptr;
 };
