@@ -2,11 +2,10 @@
 
 #include "raylib.h"
 #include "System/ScreenRelatedObject.h"
+#include "System/SystemGlobals.h"
 #include "UI/ClickableObject.h"
 
 #include <cstdint>
-
-typedef std::function<void()> Function;
 
 class Player;
 class Node;
@@ -20,7 +19,7 @@ public:
 
 	void Update() override;
 	void MarkAsRemovable(bool isRemovable = true);
-	void MoveToPosition(const Vector2& destination, Function onMovementEnd = nullptr);
+	void MoveToPosition(const Vector2& destination, VoidFunction onMovementEnd = nullptr);
 	void MarkAsSelected(bool isSelected = true);
 	void MarkAsSelectable(bool isSelectable = true);
 	const uint8_t GetOwningPlayerID() const;
@@ -42,5 +41,5 @@ private:
 	bool _isSelectable = false;
 	float _movementSpeed = 0.5f;
 	Vector2 _destination;
-	Function _onMovementEnd = nullptr;
+	VoidFunction _onMovementEnd = nullptr;
 };

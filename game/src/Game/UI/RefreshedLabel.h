@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Label.h"
+#include "System/SystemGlobals.h"
 #include <functional>
-
-typedef std::function<std::string()> RefreshFunction;
 
 class RefreshedLabel : public Label
 {
@@ -16,11 +15,11 @@ public:
 
 	void Update() override;
 
-	void RegisterRefreshFunction(RefreshFunction refreshFunction);
+	void RegisterRefreshFunction(StringFunction refreshFunction);
 	void SetRefreshRate(float refreshRate);
 
 private:
-	RefreshFunction _refreshFunction;
+	StringFunction _refreshFunction;
 	float _refreshRate = 0.3f;
 	float _timeUntilRefresh = 0.f;
 };

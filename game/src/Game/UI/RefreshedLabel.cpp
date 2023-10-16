@@ -39,7 +39,7 @@ void RefreshedLabel::Update()
 	}
 }
 
-void RefreshedLabel::RegisterRefreshFunction(RefreshFunction refreshFunction)
+void RefreshedLabel::RegisterRefreshFunction(StringFunction refreshFunction)
 {
 	_refreshFunction = refreshFunction;
 }

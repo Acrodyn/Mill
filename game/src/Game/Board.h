@@ -74,7 +74,7 @@ private:
 	void TryPiecePlacement(Node* node);
 	void TryPieceRemoval(Node* node);
 	void TryPieceMovement(Node* node);
-	int GetPlayerPiecesOnBoard(Player* player);
+	uint8_t GetPlayerPiecesOnBoard(Player* player);
 	bool AnyPiecePlaced();
 	bool IsThereRemoveablePieces(Player* remover);
 	bool CheckForMill(Node* node, bool markMill = false);

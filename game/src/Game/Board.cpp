@@ -184,7 +184,7 @@ void Board::SetupPlayers()
 
 void Board::StartNextPlayer()
 {
-    int nextPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
+    uint8_t nextPlayerIndex = (_currentPlayerIndex + 1) % _playerCount;
     Player* nextPlayer = GetPlayer(nextPlayerIndex + 1);
 
     if (!CheckIfPossibleMoves(nextPlayer))
@@ -220,9 +220,9 @@ void Board::EvaluatePlayerPhase(Player* player)
     }
 }
 
-int Board::GetPlayerPiecesOnBoard(Player* player)
+uint8_t Board::GetPlayerPiecesOnBoard(Player* player)
 {
-    int pieceCount = 0;
+    uint8_t pieceCount = 0;
 
     for (Node* node : _nodes)
     {

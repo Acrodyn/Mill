@@ -23,9 +23,9 @@ public:
 	~Connection();
 
 	void Update();
-	ConnectionDirection GetDirection();
 	void SetAsMarked(bool isMarked = true);
 	bool ContainsNode(Node* node);
+	ConnectionDirection GetDirection();
 
 private:
 	const Node* const _node1 = nullptr;

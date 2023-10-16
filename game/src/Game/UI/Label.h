@@ -16,11 +16,11 @@ public:
 
 	virtual void Update() override;
 
-	Vector2 GetTextDimensions();
 	void SetFontSize(int fontSize);
 	void SetText(const std::string& text);
 	void SetColor(const CLITERAL(Color)& color);
 	void RefreshOffset();
+	Vector2 GetTextDimensions();
 
 protected:
 	const int DEFAULT_SIZE = 30;

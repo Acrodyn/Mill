@@ -40,7 +40,7 @@ void Piece::MarkAsRemovable(bool isRemovable)
 	_isRemovable = isRemovable;
 }
 
-void Piece::MoveToPosition(const Vector2& destination, Function onMovementEnd)
+void Piece::MoveToPosition(const Vector2& destination, VoidFunction onMovementEnd)
 {
 	_destination = destination;
 	_onMovementEnd = onMovementEnd;
